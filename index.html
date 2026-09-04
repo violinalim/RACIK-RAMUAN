@@ -315,12 +315,6 @@ button{font:inherit}
   z-index:18;
   pointer-events:none;
   overflow:visible;
-  opacity:0;
-  visibility:hidden;
-}
-.broom-lane.show{
-  opacity:1;
-  visibility:visible;
 }
 .broom-wrap{
   position:absolute;
@@ -328,10 +322,8 @@ button{font:inherit}
   bottom:0;
   width:220px;
   height:220px;
+  animation:broomPass 11s linear infinite;
   will-change:transform;
-}
-.broom-lane.show .broom-wrap{
-  animation:broomPass 11s linear 1 both;
 }
 .broom-img{
   position:absolute;
@@ -342,8 +334,8 @@ button{font:inherit}
   transform:rotate(-10deg) scaleX(-1);
   transform-origin:55% 74%;
   filter:drop-shadow(0 10px 12px rgba(0,0,0,.28));
+  animation:broomSweep .9s ease-in-out infinite alternate;
   user-select:none;
-  animation:none;
   -webkit-user-drag:none;
 }
 .broom-shadow{
@@ -356,8 +348,6 @@ button{font:inherit}
   background:radial-gradient(ellipse, rgba(0,0,0,.42) 0%, rgba(0,0,0,.18) 48%, transparent 74%);
   transform:translateX(-50%);
   filter:blur(5px);
-}
-.broom-lane.show .broom-shadow{
   animation:broomShadowMove .9s ease-in-out infinite alternate;
 }
 .dust{
@@ -369,13 +359,7 @@ button{font:inherit}
   background:radial-gradient(ellipse at 50% 60%, rgba(197,156,255,.16) 0%, rgba(175,120,255,.1) 38%, rgba(175,120,255,0) 76%);
   filter:blur(8px);
   opacity:.55;
-  animation:none;
-}
-.broom-lane.show .dust{
   animation:dustWave .9s ease-in-out infinite alternate;
-}
-.broom-lane.show .broom-img{
-  animation:broomSweep .9s ease-in-out infinite alternate;
 }
 @keyframes broomPass{
   0%{transform:translateX(0) translateY(0)}
@@ -486,7 +470,6 @@ button{font:inherit}
   const smoke = document.getElementById("smoke");
   const stream = document.getElementById("stream");
   const flash = document.getElementById("flash");
-  const broomLane = document.querySelector(".broom-lane");
   const stage = document.getElementById("stage");
   const pourTarget = document.getElementById("pourTarget");
 
@@ -494,9 +477,6 @@ button{font:inherit}
   let bubbleTimer;
   let smokeTimer;
   let streamRAF = 0;
-  let broomTimer = 0;
-  let broomHideTimer = 0;
-  const broomDuration = 11000;
 
   const random = (min,max) => Math.random() * (max-min) + min;
 
@@ -617,36 +597,6 @@ button{font:inherit}
     tick();
   }
 
-  function clearBroomTimers(){
-    clearTimeout(broomTimer);
-    clearTimeout(broomHideTimer);
-    broomTimer = 0;
-    broomHideTimer = 0;
-  }
-
-  function scheduleNextBroom(){
-    clearTimeout(broomTimer);
-    if(document.hidden) return;
-    const delay = Math.floor(random(15000, 45001));
-    broomTimer = setTimeout(showBroomOnce, delay);
-  }
-
-  function showBroomOnce(){
-    if(document.hidden || !broomLane){
-      scheduleNextBroom();
-      return;
-    }
-
-    broomLane.classList.remove("show");
-    void broomLane.offsetWidth;
-    broomLane.classList.add("show");
-
-    broomHideTimer = setTimeout(()=>{
-      broomLane.classList.remove("show");
-      scheduleNextBroom();
-    }, broomDuration);
-  }
-
   function activateBottle(button){
     if(busy) return;
     busy = true;
@@ -693,7 +643,6 @@ button{font:inherit}
   }
 
   startAmbient();
-  scheduleNextBroom();
   for(let i=0;i<7;i++){
     setTimeout(()=>makeBubble(false), i*120);
     if(i<6) setTimeout(()=>makeSmoke(false), i*130);
@@ -703,11 +652,8 @@ button{font:inherit}
     if(document.hidden){
       clearInterval(bubbleTimer);
       clearInterval(smokeTimer);
-      clearBroomTimers();
-      if(broomLane) broomLane.classList.remove("show");
     }else{
       startAmbient();
-      scheduleNextBroom();
     }
   });
 
