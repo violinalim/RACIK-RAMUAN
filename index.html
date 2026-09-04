@@ -4,786 +4,237 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>Magic Cauldron</title>
-
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-html,body{
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:#08040b;
-}
-
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  touch-action:manipulation;
-  overscroll-behavior:none;
-  -webkit-tap-highlight-color:transparent;
-}
-
-button{
-  font:inherit;
-}
-
-/* =========================
-   BACKGROUND
-========================= */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#08040b}
+body{font-family:Arial,Helvetica,sans-serif;touch-action:manipulation;overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
+button{font:inherit}
 
 .scene{
-  position:relative;
-  width:100vw;
-  height:100vh;
-  min-height:100svh;
-  overflow:hidden;
-
-  background:
-  #09050d
-  url("https://plcl.me/images/ohwiK.png")
-  center center / cover no-repeat;
-
-  user-select:none;
-  -webkit-user-select:none;
-  isolation:isolate;
+  position:relative;width:100vw;height:100vh;min-height:100svh;overflow:hidden;
+  background:#09050d url("https://plcl.me/images/ohwiK.png") center center/cover no-repeat;
+  user-select:none;-webkit-user-select:none;isolation:isolate;
 }
-
 .scene::after{
-  content:"";
-  position:absolute;
-  inset:0;
-
-  background:
-  linear-gradient(
-    to bottom,
-    transparent 0%,
-    transparent 58%,
-    rgba(0,0,0,.18) 100%
-  );
-
-  pointer-events:none;
-  z-index:1;
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 0%,transparent 58%,rgba(0,0,0,.18) 100%);
+  pointer-events:none;z-index:1;
 }
-
-/* =========================
-   STAGE
-========================= */
 
 .stage{
-  position:absolute;
-
-  left:50%;
-  bottom:1.5%;
-
-  width:920px;
-  height:720px;
-
-  transform:
-  translateX(-50%);
-
-  transform-origin:
-  center bottom;
-
-  z-index:10;
+  position:absolute;left:50%;bottom:1.5%;width:920px;height:720px;
+  transform:translateX(-50%);transform-origin:center bottom;z-index:10;
 }
-
-/* =========================
-   CAULDRON
-========================= */
 
 .cauldron-zone{
-  position:absolute;
-
-  left:50%;
-  bottom:22px;
-
-  width:410px;
-  height:410px;
-
-  transform:
-  translateX(-50%);
-
-  z-index:30;
+  position:absolute;left:50%;bottom:22px;width:410px;height:410px;
+  transform:translateX(-50%);z-index:30;
 }
-
 .cauldron-shadow{
-  position:absolute;
-
-  left:50%;
-  bottom:4px;
-
-  width:310px;
-  height:48px;
-
-  transform:
-  translateX(-50%);
-
-  border-radius:50%;
-
-  background:
-  radial-gradient(
-    ellipse,
-    rgba(0,0,0,.75) 0%,
-    rgba(0,0,0,.35) 48%,
-    transparent 76%
-  );
-
-  filter:blur(10px);
-
-  z-index:1;
+  position:absolute;left:50%;bottom:4px;width:310px;height:48px;transform:translateX(-50%);
+  border-radius:50%;background:radial-gradient(ellipse,rgba(0,0,0,.75) 0%,rgba(0,0,0,.35) 48%,transparent 76%);
+  filter:blur(10px);z-index:1;
 }
-
 .cauldron-img{
-  position:absolute;
-
-  inset:0;
-
-  width:100%;
-  height:100%;
-
-  object-fit:contain;
-  object-position:center bottom;
-
-  z-index:20;
-
-  pointer-events:none;
-  user-select:none;
-  -webkit-user-drag:none;
-
-  filter:
-  drop-shadow(
-    0 22px 22px
-    rgba(0,0,0,.38)
-  );
+  position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center bottom;z-index:20;
+  pointer-events:none;user-select:none;-webkit-user-drag:none;filter:drop-shadow(0 22px 22px rgba(0,0,0,.38));
 }
 
-/* =========================
-   AIR DALAM KUALI
-========================= */
-
+/* AIR DALAM KUALI */
 .liquid-mask{
-  position:absolute;
-
-  left:50%;
-  top:15.9%;
-
-  width:66.5%;
-  height:12.4%;
-
-  transform:
-  translateX(-50%);
-
-  border-radius:50%;
-  overflow:hidden;
-
-  pointer-events:none;
-
-  z-index:24;
+  position:absolute;left:50%;top:15.9%;width:66.5%;height:12.4%;transform:translateX(-50%);
+  border-radius:50%;overflow:hidden;pointer-events:none;z-index:24;
 }
-
 .liquid-surface{
-  position:absolute;
-
-  inset:-18% -10%;
-
+  position:absolute;inset:-18% -10%;
   background:
-    radial-gradient(
-      ellipse at 50% 48%,
-      rgba(255,255,255,.22) 0%,
-      rgba(255,255,255,.08) 16%,
-      rgba(255,255,255,0) 38%
-    ),
-    radial-gradient(
-      ellipse at 35% 50%,
-      rgba(255,170,255,.24) 0%,
-      rgba(255,170,255,0) 36%
-    ),
-    radial-gradient(
-      ellipse at 72% 55%,
-      rgba(130,205,255,.18) 0%,
-      rgba(130,205,255,0) 34%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(255,170,255,.18),
-      rgba(175,67,255,.48) 40%,
-      rgba(93,18,153,.88) 100%
-    );
-
+    radial-gradient(ellipse at 50% 48%,rgba(255,255,255,.22) 0%,rgba(255,255,255,.08) 16%,rgba(255,255,255,0) 38%),
+    radial-gradient(ellipse at 35% 50%,rgba(255,170,255,.24) 0%,rgba(255,170,255,0) 36%),
+    radial-gradient(ellipse at 72% 55%,rgba(130,205,255,.18) 0%,rgba(130,205,255,0) 34%),
+    linear-gradient(180deg,rgba(255,170,255,.18),rgba(175,67,255,.48) 40%,rgba(93,18,153,.88) 100%);
   opacity:.96;
-
-  animation:
-  liquidMove 3.6s
-  ease-in-out infinite;
+  animation:liquidMove 3.6s ease-in-out infinite;
 }
-
 .liquid-surface::before{
-  content:"";
-
-  position:absolute;
-
-  inset:-8% -12%;
-
+  content:"";position:absolute;inset:-8% -12%;
   background:
-    repeating-radial-gradient(
-      ellipse at 50% 55%,
-      rgba(255,255,255,.11) 0 4px,
-      rgba(255,255,255,0) 4px 18px
-    ),
-    repeating-linear-gradient(
-      96deg,
-      rgba(255,255,255,.08) 0 2px,
-      rgba(255,255,255,0) 2px 16px
-    );
-
+    repeating-radial-gradient(ellipse at 50% 55%,rgba(255,255,255,.11) 0 4px,rgba(255,255,255,0) 4px 18px),
+    repeating-linear-gradient(96deg,rgba(255,255,255,.08) 0 2px,rgba(255,255,255,0) 2px 16px);
   opacity:.65;
-
   mix-blend-mode:screen;
-
-  animation:
-  liquidRipple 2.4s
-  linear infinite;
+  animation:liquidRipple 2.4s linear infinite;
 }
-
 .liquid-surface::after{
-  content:"";
-
-  position:absolute;
-
-  left:-8%;
-  right:-8%;
-  top:16%;
-
-  height:34%;
-
-  background:
-  linear-gradient(
-    180deg,
-    rgba(255,255,255,.34),
-    rgba(255,255,255,0)
-  );
-
-  border-radius:50%;
-
-  filter:blur(4px);
-
-  opacity:.7;
-
-  animation:
-  liquidShine 2.8s
-  ease-in-out infinite;
+  content:"";position:absolute;left:-8%;right:-8%;top:16%;height:34%;
+  background:linear-gradient(180deg,rgba(255,255,255,.34),rgba(255,255,255,0));
+  border-radius:50%;filter:blur(4px);opacity:.7;
+  animation:liquidShine 2.8s ease-in-out infinite;
 }
-
 .liquid-glow{
-  position:absolute;
-
-  left:50%;
-  top:15.2%;
-
-  width:72%;
-  height:15%;
-
-  transform:
-  translateX(-50%);
-
+  position:absolute;left:50%;top:15.2%;width:72%;height:15%;transform:translateX(-50%);
   border-radius:50%;
-
-  background:
-  radial-gradient(
-    ellipse,
-    rgba(230,120,255,.30) 0%,
-    rgba(175,56,255,.18) 45%,
-    transparent 75%
-  );
-
-  filter:blur(10px);
-
-  pointer-events:none;
-
-  z-index:23;
-
-  animation:
-  glowPulse 2.2s
-  ease-in-out infinite alternate;
+  background:radial-gradient(ellipse,rgba(230,120,255,.30) 0%,rgba(175,56,255,.18) 45%,transparent 75%);
+  filter:blur(10px);pointer-events:none;z-index:23;animation:glowPulse 2.2s ease-in-out infinite alternate;
 }
 
 @keyframes liquidMove{
-
-  0%{
-    transform:
-    translateX(-2.5%)
-    translateY(1%)
-    scale(1.02);
-  }
-
-  25%{
-    transform:
-    translateX(1.5%)
-    translateY(-1.5%)
-    scale(1.05);
-  }
-
-  50%{
-    transform:
-    translateX(3%)
-    translateY(.5%)
-    scale(1.06);
-  }
-
-  75%{
-    transform:
-    translateX(-1%)
-    translateY(-1%)
-    scale(1.04);
-  }
-
-  100%{
-    transform:
-    translateX(-2.5%)
-    translateY(1%)
-    scale(1.02);
-  }
-
+  0%{transform:translateX(-2.5%) translateY(1%) scale(1.02)}
+  25%{transform:translateX(1.5%) translateY(-1.5%) scale(1.05)}
+  50%{transform:translateX(3%) translateY(.5%) scale(1.06)}
+  75%{transform:translateX(-1%) translateY(-1%) scale(1.04)}
+  100%{transform:translateX(-2.5%) translateY(1%) scale(1.02)}
 }
-
 @keyframes liquidRipple{
-
-  0%{
-    transform:
-    translateX(-2%)
-    scale(1);
-
-    opacity:.42;
-  }
-
-  50%{
-    transform:
-    translateX(2%)
-    scale(1.04);
-
-    opacity:.74;
-  }
-
-  100%{
-    transform:
-    translateX(-2%)
-    scale(1);
-
-    opacity:.42;
-  }
-
+  0%{transform:translateX(-2%) scale(1);opacity:.42}
+  50%{transform:translateX(2%) scale(1.04);opacity:.74}
+  100%{transform:translateX(-2%) scale(1);opacity:.42}
 }
-
 @keyframes liquidShine{
-
-  0%,100%{
-    transform:
-    translateX(-8%)
-    scaleX(.96);
-
-    opacity:.45;
-  }
-
-  50%{
-    transform:
-    translateX(8%)
-    scaleX(1.04);
-
-    opacity:.88;
-  }
-
+  0%,100%{transform:translateX(-8%) scaleX(.96);opacity:.45}
+  50%{transform:translateX(8%) scaleX(1.04);opacity:.88}
 }
-
 @keyframes glowPulse{
-
-  from{
-    opacity:.42;
-
-    transform:
-    translateX(-50%)
-    scale(.985);
-  }
-
-  to{
-    opacity:.85;
-
-    transform:
-    translateX(-50%)
-    scale(1.04);
-  }
-
+  from{opacity:.42;transform:translateX(-50%) scale(.985)}
+  to{opacity:.85;transform:translateX(-50%) scale(1.04)}
 }
 
-/* =========================
-   BUBBLES
-========================= */
-
+/* GELEMBUNG DINAIKKAN */
 #bubbles{
   position:absolute;
-
   left:50%;
-  top:13%;
-
-  width:64%;
-  height:16%;
-
-  transform:
-  translateX(-50%);
-
+  top:-2%;
+  width:66%;
+  height:20%;
+  transform:translateX(-50%);
   pointer-events:none;
   overflow:visible;
-
   z-index:40;
 }
 
-/* =========================
-   SMOKE AREA
-========================= */
-
+/* ASAP DINAIKKAN */
 #smoke{
   position:absolute;
-
   left:50%;
-  top:0%;
-
+  top:-12%;
   width:112%;
-  height:52%;
-
-  transform:
-  translateX(-50%);
-
+  height:46%;
+  transform:translateX(-50%);
   pointer-events:none;
   overflow:visible;
-
   z-index:42;
 }
 
-/* =========================
-   MAGIC RING
-========================= */
-
 .magic-ring{
-  position:absolute;
-
-  left:50%;
-  top:15.7%;
-
-  width:66%;
-  height:11%;
-
-  transform:
-  translateX(-50%)
-  scale(.96);
-
-  border-radius:50%;
-
-  border:
-  2px solid
-  rgba(244,191,255,.22);
-
-  box-shadow:
-  0 0 18px rgba(204,84,255,.18),
-  inset 0 0 14px rgba(221,132,255,.10);
-
-  opacity:.34;
-
-  z-index:35;
-
-  pointer-events:none;
-
-  animation:
-  ringIdle 1.8s
-  ease-in-out
-  infinite alternate;
+  position:absolute;left:50%;top:15.7%;width:66%;height:11%;transform:translateX(-50%) scale(.96);
+  border-radius:50%;border:2px solid rgba(244,191,255,.22);
+  box-shadow:0 0 18px rgba(204,84,255,.18),inset 0 0 14px rgba(221,132,255,.10);
+  opacity:.34;z-index:35;pointer-events:none;animation:ringIdle 1.8s ease-in-out infinite alternate;
 }
-
 @keyframes ringIdle{
-
-  to{
-    opacity:.56;
-
-    transform:
-    translateX(-50%)
-    scale(1.02);
-  }
-
+  to{opacity:.56;transform:translateX(-50%) scale(1.02)}
 }
-
-/* =========================
-   FLASH
-========================= */
 
 .flash{
   position:absolute;
-
   left:50%;
-  top:9%;
-
+  top:5%;
   width:72%;
   height:24%;
-
-  transform:
-  translateX(-50%)
-  scale(.25);
-
+  transform:translateX(-50%) scale(.25);
   border-radius:50%;
-
-  background:
-  radial-gradient(
-    ellipse,
-    var(--glow,rgba(215,108,255,.68)),
-    rgba(178,57,255,.22) 42%,
-    transparent 74%
-  );
-
+  background:radial-gradient(ellipse,var(--glow,rgba(215,108,255,.68)),rgba(178,57,255,.22) 42%,transparent 74%);
   filter:blur(8px);
-
   opacity:0;
-
   z-index:38;
-
   pointer-events:none;
 }
-
-.flash.show{
-  animation:
-  flash .9s
-  ease-out both;
-}
-
+.flash.show{animation:flash .9s ease-out both}
 @keyframes flash{
-
-  0%{
-    opacity:0;
-
-    transform:
-    translateX(-50%)
-    scale(.25);
-  }
-
-  35%{
-    opacity:1;
-
-    transform:
-    translateX(-50%)
-    scale(1.05);
-  }
-
-  100%{
-    opacity:0;
-
-    transform:
-    translateX(-50%)
-    scale(1.55);
-  }
-
+  0%{opacity:0;transform:translateX(-50%) scale(.25)}
+  35%{opacity:1;transform:translateX(-50%) scale(1.05)}
+  100%{opacity:0;transform:translateX(-50%) scale(1.55)}
 }
-
-/* =========================
-   BUBBLE PARTICLES
-========================= */
 
 .bubble{
   position:absolute;
-
-  bottom:8%;
-
+  bottom:12%;
   border-radius:50%;
-
-  background:
-  radial-gradient(
-    circle at 28% 23%,
-    rgba(255,255,255,.94) 0%,
-    rgba(238,171,255,.70) 13%,
-    rgba(194,75,255,.46) 42%,
-    rgba(108,8,168,.55) 78%
-  );
-
-  border:
-  1px solid
-  rgba(244,197,255,.66);
-
-  box-shadow:
-  0 0 10px
-  rgba(190,71,255,.30);
-
-  animation:
-  bubbleRise
-  var(--duration)
-  ease-out forwards;
+  background:radial-gradient(circle at 28% 23%,rgba(255,255,255,.94) 0%,rgba(238,171,255,.70) 13%,rgba(194,75,255,.46) 42%,rgba(108,8,168,.55) 78%);
+  border:1px solid rgba(244,197,255,.66);
+  box-shadow:0 0 10px rgba(190,71,255,.30);
+  animation:bubbleRise var(--duration) ease-out forwards;
 }
 
 @keyframes bubbleRise{
-
-  0%{
-    opacity:0;
-
-    transform:
-    translate(0,4px)
-    scale(.24);
-  }
-
-  15%{
-    opacity:1;
-  }
-
-  58%{
-    opacity:.95;
-
-    transform:
-    translate(
-      var(--drift1),
-      -24px
-    )
-    scale(.92);
-  }
-
-  100%{
-    opacity:0;
-
-    transform:
-    translate(
-      var(--drift2),
-      -68px
-    )
-    scale(1.35);
-  }
-
+  0%{opacity:0;transform:translate(0,4px) scale(.24)}
+  15%{opacity:1}
+  58%{opacity:.95;transform:translate(var(--drift1),-24px) scale(.92)}
+  100%{opacity:0;transform:translate(var(--drift2),-68px) scale(1.35)}
 }
-
-/* =========================
-   SMOKE PARTICLES
-========================= */
 
 .smoke-particle{
   position:absolute;
-
   bottom:-2%;
-
   width:var(--size);
-
-  height:
-  calc(var(--size) * 1.5);
-
+  height:calc(var(--size) * 1.5);
   border-radius:50%;
-
   background:
-  radial-gradient(
-    ellipse at 50% 55%,
-    rgba(238,178,255,.74) 0%,
-    rgba(208,108,255,.58) 18%,
-    rgba(164,55,235,.40) 42%,
-    rgba(102,24,158,.20) 68%,
-    transparent 100%
-  );
-
-  filter:
-  blur(var(--blur));
-
+    radial-gradient(
+      ellipse at 50% 55%,
+      rgba(238,178,255,.74) 0%,
+      rgba(208,108,255,.58) 18%,
+      rgba(164,55,235,.40) 42%,
+      rgba(102,24,158,.20) 68%,
+      transparent 100%
+    );
+  filter:blur(var(--blur));
   opacity:0;
-
-  animation:
-  smokeRise
-  var(--duration)
-  cubic-bezier(.18,.45,.38,1)
-  forwards;
+  animation:smokeRise var(--duration) cubic-bezier(.18,.45,.38,1) forwards;
 }
 
 @keyframes smokeRise{
-
   0%{
     opacity:0;
-
-    transform:
-    translate(-50%,10px)
-    scale(.34);
+    transform:translate(-50%,10px) scale(.34);
   }
-
   10%{
-    opacity:
-    var(--opacity);
+    opacity:var(--opacity);
   }
-
   38%{
-    opacity:
-    var(--opacity-mid);
-
-    transform:
-    translate(
-      calc(-50% + var(--drift1)),
-      -52px
-    )
-    scale(1.02);
+    opacity:var(--opacity-mid);
+    transform:translate(calc(-50% + var(--drift1)),-52px) scale(1.02);
   }
-
   70%{
-    opacity:
-    var(--opacity-low);
-
-    transform:
-    translate(
-      calc(-50% + var(--drift2)),
-      -110px
-    )
-    scale(1.55);
+    opacity:var(--opacity-low);
+    transform:translate(calc(-50% + var(--drift2)),-110px) scale(1.55);
   }
-
   100%{
     opacity:0;
-
-    transform:
-    translate(
-      calc(-50% + var(--drift3)),
-      var(--rise)
-    )
-    scale(var(--scale));
+    transform:translate(calc(-50% + var(--drift3)),var(--rise)) scale(var(--scale));
   }
-
 }
 
-/* =========================
-   BOTTLES
-========================= */
-
+/* BOTOL */
 .bottles{
   position:absolute;
-
   right:-55px;
   bottom:0;
-
   width:430px;
   height:610px;
-
   z-index:120;
 }
 
 .bottle{
   position:absolute;
-
   width:145px;
   height:176px;
-
   border:0;
-
-  background:
-  transparent;
-
+  background:transparent;
   cursor:pointer;
-
   outline:none;
-
-  transform-origin:
-  50% 82%;
-
-  animation:
-  bottleFloat 3.1s
-  ease-in-out infinite;
-
+  transform-origin:50% 82%;
+  animation:bottleFloat 3.1s ease-in-out infinite;
   z-index:125;
-
   --pour-x:0px;
   --pour-y:60px;
 }
@@ -791,7 +242,6 @@ button{
 .bottle.purple{
   left:165px;
   bottom:360px;
-
   --pour-x:-175px;
   --pour-y:64px;
 }
@@ -799,492 +249,192 @@ button{
 .bottle.green{
   left:250px;
   bottom:332px;
-
   --pour-x:-255px;
   --pour-y:62px;
-
   animation-delay:.42s;
 }
 
 .bottle.blue{
   left:335px;
   bottom:360px;
-
   --pour-x:-335px;
   --pour-y:64px;
-
   animation-delay:.84s;
 }
 
 .bottle:hover,
 .bottle:focus-visible{
-
-  filter:
-  brightness(1.10)
-  drop-shadow(
-    0 0 16px
-    rgba(206,94,255,.40)
-  );
+  filter:brightness(1.10) drop-shadow(0 0 16px rgba(206,94,255,.40));
 }
 
 .bottle img{
   position:absolute;
-
   inset:0;
-
   width:100%;
   height:100%;
-
   object-fit:contain;
   object-position:center bottom;
-
   pointer-events:none;
-
   user-select:none;
-
   -webkit-user-drag:none;
-
-  filter:
-  drop-shadow(
-    0 12px 11px
-    rgba(0,0,0,.20)
-  );
-
-  transition:
-  opacity .16s ease;
+  filter:drop-shadow(0 12px 11px rgba(0,0,0,.20));
+  transition:opacity .16s ease;
 }
 
-.bottle .open{
-  opacity:0;
-}
-
-.bottle.active .closed{
-  opacity:0;
-}
-
-.bottle.active .open{
-  opacity:1;
-}
+.bottle .open{opacity:0}
+.bottle.active .closed{opacity:0}
+.bottle.active .open{opacity:1}
 
 .bottle.active{
   z-index:175;
-
   pointer-events:none;
-
-  animation:
-  bottlePour
-  2.7s
-  cubic-bezier(.4,0,.2,1)
-  both;
-
-  filter:
-  brightness(1.12)
-  drop-shadow(
-    0 0 18px
-    var(--glow,rgba(205,85,255,.65))
-  );
+  animation:bottlePour 2.7s cubic-bezier(.4,0,.2,1) both;
+  filter:brightness(1.12) drop-shadow(0 0 18px var(--glow,rgba(205,85,255,.65)));
 }
 
 @keyframes bottleFloat{
-
-  0%,100%{
-    transform:
-    translateY(0)
-    rotate(-1.5deg);
-  }
-
-  50%{
-    transform:
-    translateY(-8px)
-    rotate(1.5deg);
-  }
-
+  0%,100%{transform:translateY(0) rotate(-1.5deg)}
+  50%{transform:translateY(-8px) rotate(1.5deg)}
 }
 
 @keyframes bottlePour{
-
-  0%{
-    transform:
-    translate(0,0)
-    rotate(0deg);
-  }
-
-  14%{
-    transform:
-    translate(-6px,-26px)
-    rotate(-8deg);
-  }
-
-  38%{
-    transform:
-    translate(
-      calc(var(--pour-x) * .55),
-      18px
-    )
-    rotate(-30deg);
-  }
-
-  50%,72%{
-    transform:
-    translate(
-      var(--pour-x),
-      var(--pour-y)
-    )
-    rotate(-72deg);
-  }
-
-  82%{
-    transform:
-    translate(
-      calc(var(--pour-x) * .35),
-      12px
-    )
-    rotate(-24deg);
-  }
-
-  100%{
-    transform:
-    translate(0,0)
-    rotate(0deg);
-  }
-
+  0%{transform:translate(0,0) rotate(0deg)}
+  14%{transform:translate(-6px,-26px) rotate(-8deg)}
+  38%{transform:translate(calc(var(--pour-x) * .55),18px) rotate(-30deg)}
+  50%,72%{transform:translate(var(--pour-x),var(--pour-y)) rotate(-72deg)}
+  82%{transform:translate(calc(var(--pour-x) * .35),12px) rotate(-24deg)}
+  100%{transform:translate(0,0) rotate(0deg)}
 }
 
-/* =========================
-   REALISTIC POUR STREAM
-========================= */
-
+/* TUANGAN */
 .stream{
   position:absolute;
-
   left:50%;
   bottom:303px;
-
   width:22px;
   height:110px;
-
-  transform:
-  translateX(-50%)
-  rotate(4deg)
-  scaleY(0);
-
-  transform-origin:
-  top center;
-
+  transform:translateX(-50%) rotate(4deg) scaleY(0);
+  transform-origin:top center;
   opacity:0;
-
   z-index:115;
-
   pointer-events:none;
-
-  filter:
-  drop-shadow(
-    0 0 12px
-    var(--glow,#d76cff)
-  );
+  filter:drop-shadow(0 0 12px var(--glow,#d76cff));
 }
 
 .stream::before{
   content:"";
-
   position:absolute;
-
   left:50%;
   top:0;
-
-  transform:
-  translateX(-50%);
-
+  transform:translateX(-50%);
   width:100%;
   height:100%;
-
   background:
-    linear-gradient(
-      180deg,
-      rgba(255,255,255,.78) 0%,
-      rgba(255,255,255,.18) 10%,
-      transparent 22%
-    ),
-    radial-gradient(
-      ellipse at 50% 12%,
-      rgba(255,255,255,.35) 0%,
-      rgba(255,255,255,0) 48%
-    ),
-    linear-gradient(
-      180deg,
-      var(--c1,#f6d0ff) 0%,
-      var(--c2,#cf55ff) 36%,
-      var(--c3,#8a1dcc) 100%
-    );
-
-  border-radius:
-  55% 45% 42% 58% /
-  14% 14% 86% 86%;
-
-  clip-path:
-  polygon(
-    42% 0%,
-    58% 0%,
-    75% 16%,
-    73% 36%,
-    68% 55%,
-    62% 76%,
-    57% 100%,
-    43% 100%,
-    37% 77%,
-    31% 54%,
-    27% 34%,
-    25% 16%
-  );
-
+    linear-gradient(180deg,rgba(255,255,255,.78) 0%,rgba(255,255,255,.18) 10%,transparent 22%),
+    radial-gradient(ellipse at 50% 12%,rgba(255,255,255,.35) 0%,rgba(255,255,255,0) 48%),
+    linear-gradient(180deg,var(--c1,#f6d0ff) 0%,var(--c2,#cf55ff) 36%,var(--c3,#8a1dcc) 100%);
+  border-radius:55% 45% 42% 58% / 14% 14% 86% 86%;
+  clip-path:polygon(42% 0%,58% 0%,75% 16%,73% 36%,68% 55%,62% 76%,57% 100%,43% 100%,37% 77%,31% 54%,27% 34%,25% 16%);
   box-shadow:
-  inset 3px 0 4px rgba(255,255,255,.22),
-  inset -3px 0 5px rgba(72,0,124,.32),
-  0 0 12px var(--glow,#d76cff);
-
-  animation:
-  streamFlow .28s
-  linear infinite;
+    inset 3px 0 4px rgba(255,255,255,.22),
+    inset -3px 0 5px rgba(72,0,124,.32),
+    0 0 12px var(--glow,#d76cff);
+  animation:streamFlow .28s linear infinite;
 }
 
 .stream::after{
   content:"";
-
   position:absolute;
-
   left:50%;
   bottom:-6px;
-
-  transform:
-  translateX(-50%);
-
+  transform:translateX(-50%);
   width:46px;
   height:18px;
-
   border-radius:50%;
-
-  background:
-  radial-gradient(
-    ellipse,
-    rgba(255,255,255,.74) 0%,
-    var(--c2,#cf55ff) 28%,
-    rgba(255,255,255,0) 72%
-  );
-
-  filter:
-  blur(1.8px);
-
+  background:radial-gradient(ellipse,rgba(255,255,255,.74) 0%,var(--c2,#cf55ff) 28%,rgba(255,255,255,0) 72%);
+  filter:blur(1.8px);
   opacity:.92;
-
-  animation:
-  splashPulse .32s
-  ease-in-out infinite alternate;
+  animation:splashPulse .32s ease-in-out infinite alternate;
 }
 
 .stream.show{
-  animation:
-  streamPour 1.08s
-  ease-in-out both;
+  animation:streamPour 1.08s ease-in-out both;
 }
 
 @keyframes streamPour{
-
-  0%{
-    opacity:0;
-
-    transform:
-    translateX(-50%)
-    rotate(4deg)
-    scaleY(0);
-  }
-
-  18%,78%{
-    opacity:.98;
-
-    transform:
-    translateX(-50%)
-    rotate(4deg)
-    scaleY(1);
-  }
-
-  100%{
-    opacity:0;
-
-    transform:
-    translateX(-50%)
-    rotate(4deg)
-    scaleY(.20);
-  }
-
+  0%{opacity:0;transform:translateX(-50%) rotate(4deg) scaleY(0)}
+  18%,78%{opacity:.98;transform:translateX(-50%) rotate(4deg) scaleY(1)}
+  100%{opacity:0;transform:translateX(-50%) rotate(4deg) scaleY(.20)}
 }
 
 @keyframes streamFlow{
-
-  0%{
-    transform:
-    translateX(-50%)
-    skewX(-2deg)
-    scaleX(.96);
-  }
-
-  50%{
-    transform:
-    translateX(-50%)
-    skewX(2deg)
-    scaleX(1.05);
-  }
-
-  100%{
-    transform:
-    translateX(-50%)
-    skewX(-2deg)
-    scaleX(.96);
-  }
-
+  0%{transform:translateX(-50%) skewX(-2deg) scaleX(.96)}
+  50%{transform:translateX(-50%) skewX(2deg) scaleX(1.05)}
+  100%{transform:translateX(-50%) skewX(-2deg) scaleX(.96)}
 }
 
 @keyframes splashPulse{
-
-  from{
-    transform:
-    translateX(-50%)
-    scale(.92);
-
-    opacity:.6;
-  }
-
-  to{
-    transform:
-    translateX(-50%)
-    scale(1.1);
-
-    opacity:1;
-  }
-
+  from{transform:translateX(-50%) scale(.92);opacity:.6}
+  to{transform:translateX(-50%) scale(1.1);opacity:1}
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
-
+/* RESPONSIVE */
 @media (min-width:1200px){
-
-  .stage{
-    width:920px;
-    height:720px;
-  }
-
+  .stage{width:920px;height:720px}
 }
 
 @media(max-width:980px){
-
-  .stage{
-    transform:
-    translateX(-50%)
-    scale(.88);
-  }
-
-  .bottles{
-    right:-40px;
-  }
-
+  .stage{transform:translateX(-50%) scale(.88)}
+  .bottles{right:-40px}
 }
 
 @media(max-width:760px){
-
   .stage{
     bottom:.5%;
-
     width:820px;
     height:680px;
-
-    transform:
-    translateX(-50%)
-    scale(.70);
+    transform:translateX(-50%) scale(.70);
   }
-
-  .bottles{
-    right:-26px;
-  }
-
+  .bottles{right:-26px}
 }
 
 @media(max-width:540px){
-
-  .scene{
-    background-position:center center;
-  }
-
+  .scene{background-position:center center}
   .stage{
     bottom:1.5%;
-
     width:720px;
     height:650px;
-
-    transform:
-    translateX(-50%)
-    scale(.54);
+    transform:translateX(-50%) scale(.54);
   }
-
-  .cauldron-zone{
-    bottom:38px;
-  }
-
-  .bottles{
-    right:-18px;
-  }
-
+  .cauldron-zone{bottom:38px}
+  .bottles{right:-18px}
 }
 
 @media(max-width:420px){
-
   .stage{
     bottom:3%;
-
     width:670px;
     height:620px;
-
-    transform:
-    translateX(-50%)
-    scale(.48);
+    transform:translateX(-50%) scale(.48);
   }
-
-  .cauldron-zone{
-    bottom:58px;
-  }
-
-  .bottles{
-    right:-12px;
-  }
-
+  .cauldron-zone{bottom:58px}
+  .bottles{right:-12px}
 }
 
-@media(max-height:620px)
-and (orientation:landscape){
-
+@media(max-height:620px) and (orientation:landscape){
   .stage{
     bottom:-3%;
-
-    transform:
-    translateX(-50%)
-    scale(.68);
+    transform:translateX(-50%) scale(.68);
   }
-
 }
-
 </style>
 </head>
 
 <body>
 
-<main
-class="scene"
-id="scene"
->
+<main class="scene" id="scene">
 
 <section class="stage">
-
-<!-- KUALI -->
 
 <div class="cauldron-zone">
 
@@ -1316,14 +466,10 @@ id="flash"
 
 </div>
 
-<!-- STREAM -->
-
 <div
 class="stream"
 id="stream"
 ></div>
-
-<!-- BOTTLES -->
 
 <div class="bottles">
 
@@ -1331,77 +477,63 @@ id="stream"
 class="bottle purple"
 type="button"
 aria-label="Ramuan ungu"
-
 data-c1="#f4c5ff"
 data-c2="#d052ff"
 data-c3="#8617cc"
 data-glow="rgba(220,98,255,.78)"
 >
-
 <img
 class="closed"
 src="assets/potion-purple-closed.png"
 alt="Ramuan ungu tertutup"
 >
-
 <img
 class="open"
 src="assets/potion-purple-open.png"
 alt="Ramuan ungu terbuka"
 >
-
 </button>
-
 
 <button
 class="bottle green"
 type="button"
 aria-label="Ramuan hijau"
-
 data-c1="#e1ffd6"
 data-c2="#73ff72"
 data-c3="#169747"
 data-glow="rgba(116,255,126,.76)"
 >
-
 <img
 class="closed"
 src="assets/potion-green-closed.png"
 alt="Ramuan hijau tertutup"
 >
-
 <img
 class="open"
 src="assets/potion-green-open.png"
 alt="Ramuan hijau terbuka"
 >
-
 </button>
-
 
 <button
 class="bottle blue"
 type="button"
 aria-label="Ramuan biru"
-
 data-c1="#dffaff"
 data-c2="#56c8ff"
 data-c3="#056eea"
 data-glow="rgba(104,201,255,.78)"
 >
-
 <img
 class="closed"
 src="assets/potion-blue-closed.png"
 alt="Ramuan biru tertutup"
 >
-
 <img
 class="open"
 src="assets/potion-blue-open.png"
 alt="Ramuan biru terbuka"
 >
-
 </button>
 
 </div>
@@ -1416,595 +548,510 @@ alt="Ramuan biru terbuka"
 
 "use strict";
 
-const scene =
-document.getElementById("scene");
+const scene = document.getElementById("scene");
 
 const bottles = [
-...document.querySelectorAll(".bottle")
+  ...document.querySelectorAll(".bottle")
 ];
 
-const bubbles =
-document.getElementById("bubbles");
-
-const smoke =
-document.getElementById("smoke");
-
-const stream =
-document.getElementById("stream");
-
-const flash =
-document.getElementById("flash");
+const bubbles = document.getElementById("bubbles");
+const smoke = document.getElementById("smoke");
+const stream = document.getElementById("stream");
+const flash = document.getElementById("flash");
 
 let busy = false;
-
 let bubbleTimer;
-
 let smokeTimer;
 
-
-/* =========================
-   RANDOM
-========================= */
-
-const random =
-(min,max) =>
+const random = (min,max) =>
 Math.random() * (max-min) + min;
 
 
-/* =========================
-   BUBBLE
-========================= */
+/* BUBBLE */
 
-function makeBubble(
-big=false
-){
+function makeBubble(big=false){
 
-if(document.hidden)
-return;
+  if(document.hidden)
+  return;
 
-const b =
-document.createElement("span");
+  const b =
+  document.createElement("span");
 
-b.className =
-"bubble";
+  b.className =
+  "bubble";
 
-const size =
-random(
-big ? 11 : 5,
-big ? 26 : 14
-);
+  const size =
+  random(
+    big ? 11 : 5,
+    big ? 26 : 14
+  );
 
-b.style.width =
-`${size}px`;
+  b.style.width =
+  `${size}px`;
 
-b.style.height =
-`${size * random(.72,1)}px`;
+  b.style.height =
+  `${size * random(.72,1)}px`;
 
-b.style.left =
-`${random(10,90)}%`;
+  b.style.left =
+  `${random(10,90)}%`;
 
-b.style.setProperty(
-"--duration",
-`${random(
-big ? .72 : 1.0,
-big ? 1.2 : 1.7
-)}s`
-);
+  b.style.setProperty(
+    "--duration",
+    `${random(
+      big ? .72 : 1.0,
+      big ? 1.2 : 1.7
+    )}s`
+  );
 
-b.style.setProperty(
-"--drift1",
-`${random(-18,18)}px`
-);
+  b.style.setProperty(
+    "--drift1",
+    `${random(-18,18)}px`
+  );
 
-b.style.setProperty(
-"--drift2",
-`${random(-30,30)}px`
-);
+  b.style.setProperty(
+    "--drift2",
+    `${random(-30,30)}px`
+  );
 
-bubbles.appendChild(b);
+  bubbles.appendChild(b);
 
-b.addEventListener(
-"animationend",
-()=>b.remove(),
-{
-once:true
-}
-);
+  b.addEventListener(
+    "animationend",
+    ()=>b.remove(),
+    {once:true}
+  );
 
 }
 
 
-/* =========================
-   SMOKE
-========================= */
+/* SMOKE */
 
-function makeSmoke(
-big=false
-){
+function makeSmoke(big=false){
 
-if(document.hidden)
-return;
+  if(document.hidden)
+  return;
 
-const s =
-document.createElement("span");
+  const s =
+  document.createElement("span");
 
-s.className =
-"smoke-particle";
+  s.className =
+  "smoke-particle";
 
-const size =
-random(
-big ? 120 : 92,
-big ? 220 : 165
-);
+  const size =
+  random(
+    big ? 120 : 92,
+    big ? 220 : 165
+  );
 
-s.style.left =
-`${random(26,74)}%`;
+  s.style.left =
+  `${random(26,74)}%`;
 
-s.style.setProperty(
-"--size",
-`${size}px`
-);
+  s.style.setProperty(
+    "--size",
+    `${size}px`
+  );
 
-s.style.setProperty(
-"--blur",
-`${random(16,28)}px`
-);
+  s.style.setProperty(
+    "--blur",
+    `${random(16,28)}px`
+  );
 
-s.style.setProperty(
-"--duration",
-`${random(
-big ? 2.4 : 3.2,
-big ? 4.0 : 5.0
-)}s`
-);
+  s.style.setProperty(
+    "--duration",
+    `${random(
+      big ? 2.4 : 3.2,
+      big ? 4.0 : 5.0
+    )}s`
+  );
 
+  s.style.setProperty(
+    "--opacity",
+    big
+    ? random(.70,.90)
+    : random(.42,.58)
+  );
 
-/* asap normal tebal,
-   saat menuang lebih tebal */
+  s.style.setProperty(
+    "--opacity-mid",
+    big
+    ? random(.48,.66)
+    : random(.28,.40)
+  );
 
-s.style.setProperty(
-"--opacity",
-big
-? random(.70,.90)
-: random(.42,.58)
-);
+  s.style.setProperty(
+    "--opacity-low",
+    big
+    ? random(.22,.34)
+    : random(.14,.22)
+  );
 
-s.style.setProperty(
-"--opacity-mid",
-big
-? random(.48,.66)
-: random(.28,.40)
-);
+  s.style.setProperty(
+    "--drift1",
+    `${random(-32,32)}px`
+  );
 
-s.style.setProperty(
-"--opacity-low",
-big
-? random(.22,.34)
-: random(.14,.22)
-);
+  s.style.setProperty(
+    "--drift2",
+    `${random(-68,68)}px`
+  );
 
+  s.style.setProperty(
+    "--drift3",
+    `${random(-110,110)}px`
+  );
 
-s.style.setProperty(
-"--drift1",
-`${random(-32,32)}px`
-);
+  s.style.setProperty(
+    "--rise",
+    `${random(-190,-125)}px`
+  );
 
-s.style.setProperty(
-"--drift2",
-`${random(-68,68)}px`
-);
+  s.style.setProperty(
+    "--scale",
+    random(1.7,2.45)
+  );
 
-s.style.setProperty(
-"--drift3",
-`${random(-110,110)}px`
-);
+  smoke.appendChild(s);
 
-s.style.setProperty(
-"--rise",
-`${random(-190,-125)}px`
-);
-
-s.style.setProperty(
-"--scale",
-random(1.7,2.45)
-);
-
-smoke.appendChild(s);
-
-s.addEventListener(
-"animationend",
-()=>s.remove(),
-{
-once:true
-}
-);
+  s.addEventListener(
+    "animationend",
+    ()=>s.remove(),
+    {once:true}
+  );
 
 }
 
 
-/* =========================
-   RESTART
-========================= */
+/* RESTART ANIMATION */
 
 function restartAnimation(
-element,
-className
+  element,
+  className
 ){
 
-element.classList.remove(
-className
-);
+  element.classList.remove(
+    className
+  );
 
-void element.offsetWidth;
+  void element.offsetWidth;
 
-element.classList.add(
-className
-);
+  element.classList.add(
+    className
+  );
 
 }
 
 
-/* =========================
-   BURST
-========================= */
+/* EFEK SAAT MENUANG */
 
 function burst(){
 
-for(
-let i=0;
-i<14;
-i++
-){
+  for(
+    let i=0;
+    i<14;
+    i++
+  ){
+    setTimeout(
+      ()=>makeBubble(true),
+      i*38
+    );
+  }
 
-setTimeout(
-()=>makeBubble(true),
-i*38
-);
+  for(
+    let i=0;
+    i<18;
+    i++
+  ){
+    setTimeout(
+      ()=>makeSmoke(true),
+      i*44
+    );
+  }
 
-}
-
-
-/* asap utama saat menuang */
-
-for(
-let i=0;
-i<18;
-i++
-){
-
-setTimeout(
-()=>makeSmoke(true),
-i*44
-);
-
-}
-
-
-/* asap susulan */
-
-for(
-let i=0;
-i<8;
-i++
-){
-
-setTimeout(
-()=>makeSmoke(true),
-420 + (i*52)
-);
-
-}
+  for(
+    let i=0;
+    i<8;
+    i++
+  ){
+    setTimeout(
+      ()=>makeSmoke(true),
+      420 + (i*52)
+    );
+  }
 
 }
 
 
-/* =========================
-   COLORS
-========================= */
+/* WARNA RAMUAN */
 
 function setPotionColors(
-button
+  button
 ){
 
-scene.style.setProperty(
-"--c1",
-button.dataset.c1
-);
+  scene.style.setProperty(
+    "--c1",
+    button.dataset.c1
+  );
 
-scene.style.setProperty(
-"--c2",
-button.dataset.c2
-);
+  scene.style.setProperty(
+    "--c2",
+    button.dataset.c2
+  );
 
-scene.style.setProperty(
-"--c3",
-button.dataset.c3
-);
+  scene.style.setProperty(
+    "--c3",
+    button.dataset.c3
+  );
 
-scene.style.setProperty(
-"--glow",
-button.dataset.glow
-);
+  scene.style.setProperty(
+    "--glow",
+    button.dataset.glow
+  );
 
 }
 
 
-/* =========================
-   CLICK BOTTLE
-========================= */
+/* CLICK BOTOL */
 
 function activateBottle(
-button
+  button
 ){
 
-if(busy)
-return;
+  if(busy)
+  return;
 
-busy = true;
+  busy = true;
 
-setPotionColors(
-button
-);
+  setPotionColors(
+    button
+  );
 
-bottles.forEach(
-b =>
-b.disabled = true
-);
+  bottles.forEach(
+    b =>
+    b.disabled = true
+  );
 
-button.classList.add(
-"active"
-);
+  button.classList.add(
+    "active"
+  );
 
+  setTimeout(
+    ()=>{
 
-/* MULAI MENUANG */
+      restartAnimation(
+        stream,
+        "show"
+      );
 
-setTimeout(
-()=>{
+      restartAnimation(
+        flash,
+        "show"
+      );
 
-restartAnimation(
-stream,
-"show"
-);
+      burst();
 
-restartAnimation(
-flash,
-"show"
-);
+    },
+    1120
+  );
 
-burst();
+  setTimeout(
+    ()=>{
 
-},
-1120
-);
+      button.classList.remove(
+        "active"
+      );
 
+      stream.classList.remove(
+        "show"
+      );
 
-/* KEMBALI */
+      flash.classList.remove(
+        "show"
+      );
 
-setTimeout(
-()=>{
+      bottles.forEach(
+        b =>
+        b.disabled = false
+      );
 
-button.classList.remove(
-"active"
-);
+      busy = false;
 
-stream.classList.remove(
-"show"
-);
-
-flash.classList.remove(
-"show"
-);
-
-bottles.forEach(
-b =>
-b.disabled = false
-);
-
-busy = false;
-
-},
-2740
-);
+    },
+    2740
+  );
 
 }
 
 
-/* EVENT */
-
 bottles.forEach(
-button => {
+  button => {
 
-button.addEventListener(
-"click",
-()=>activateBottle(button)
+    button.addEventListener(
+      "click",
+      ()=>activateBottle(button)
+    );
+
+  }
 );
 
-}
-);
 
-
-/* =========================
-   AMBIENT
-========================= */
+/* AMBIENT */
 
 function startAmbient(){
 
-clearInterval(
-bubbleTimer
-);
+  clearInterval(
+    bubbleTimer
+  );
 
-clearInterval(
-smokeTimer
-);
+  clearInterval(
+    smokeTimer
+  );
 
-bubbleTimer =
-setInterval(
-()=>makeBubble(false),
-320
-);
+  bubbleTimer =
+  setInterval(
+    ()=>makeBubble(false),
+    320
+  );
 
+  smokeTimer =
+  setInterval(
+    ()=>{
 
-/* asap idle lebih sering */
+      if(
+        Math.random()>.08
+      ){
+        makeSmoke(false);
+      }
 
-smokeTimer =
-setInterval(
-()=>{
-
-if(
-Math.random()>.08
-){
-
-makeSmoke(false);
-
-}
-
-},
-300
-);
+    },
+    300
+  );
 
 }
 
 startAmbient();
 
-
-/* INITIAL EFFECT */
 
 for(
-let i=0;
-i<7;
-i++
+  let i=0;
+  i<7;
+  i++
 ){
 
-setTimeout(
-()=>makeBubble(false),
-i*120
-);
+  setTimeout(
+    ()=>makeBubble(false),
+    i*120
+  );
 
-if(
-i<6
-){
+  if(
+    i<6
+  ){
 
-setTimeout(
-()=>makeSmoke(false),
-i*130
-);
+    setTimeout(
+      ()=>makeSmoke(false),
+      i*130
+    );
+
+  }
 
 }
 
-}
 
-
-/* =========================
-   VISIBILITY
-========================= */
+/* TAB VISIBILITY */
 
 document.addEventListener(
-"visibilitychange",
-()=>{
+  "visibilitychange",
+  ()=>{
 
-if(
-document.hidden
-){
+    if(
+      document.hidden
+    ){
 
-clearInterval(
-bubbleTimer
+      clearInterval(
+        bubbleTimer
+      );
+
+      clearInterval(
+        smokeTimer
+      );
+
+    }else{
+
+      startAmbient();
+
+    }
+
+  }
 );
 
-clearInterval(
-smokeTimer
-);
 
-}else{
-
-startAmbient();
-
-}
-
-}
-);
-
-
-/* =========================
-   BLOCK ZOOM
-========================= */
+/* BLOCK ZOOM */
 
 window.addEventListener(
-"wheel",
-e => {
+  "wheel",
+  e=>{
 
-if(
-e.ctrlKey
-){
+    if(
+      e.ctrlKey
+    ){
+      e.preventDefault();
+    }
 
-e.preventDefault();
-
-}
-
-},
-{
-passive:false
-}
+  },
+  {passive:false}
 );
 
 document.addEventListener(
-"keydown",
-e => {
+  "keydown",
+  e=>{
 
-if(
-(e.ctrlKey || e.metaKey)
-&&
-["+","-","=","0"].includes(
-e.key
-)
-){
+    if(
+      (e.ctrlKey || e.metaKey)
+      &&
+      ["+","-","=","0"].includes(
+        e.key
+      )
+    ){
+      e.preventDefault();
+    }
 
-e.preventDefault();
-
-}
-
-}
+  }
 );
 
 document.addEventListener(
-"gesturestart",
-e => e.preventDefault()
+  "gesturestart",
+  e=>e.preventDefault()
 );
 
 document.addEventListener(
-"gesturechange",
-e => e.preventDefault()
+  "gesturechange",
+  e=>e.preventDefault()
 );
 
 document.addEventListener(
-"gestureend",
-e => e.preventDefault()
+  "gestureend",
+  e=>e.preventDefault()
 );
-
 
 let lastTouchEnd = 0;
 
 document.addEventListener(
-"touchend",
-e => {
+  "touchend",
+  e=>{
 
-const now =
-Date.now();
+    const now =
+    Date.now();
 
-if(
-now - lastTouchEnd <= 300
-){
+    if(
+      now - lastTouchEnd <= 300
+    ){
+      e.preventDefault();
+    }
 
-e.preventDefault();
+    lastTouchEnd =
+    now;
 
-}
-
-lastTouchEnd =
-now;
-
-},
-{
-passive:false
-}
+  },
+  {passive:false}
 );
 
 })();
