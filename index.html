@@ -40,43 +40,61 @@ button{font:inherit}
   pointer-events:none;user-select:none;-webkit-user-drag:none;filter:drop-shadow(0 22px 22px rgba(0,0,0,.38));
 }
 
-/* AIR DALAM KUALI */
+/* AIR DALAM KUALI - LEBIH REALISTIS */
 .liquid-mask{
-  position:absolute;left:50%;top:16%;width:66%;height:12.2%;transform:translateX(-50%);
+  position:absolute;left:50%;top:15.9%;width:66.5%;height:12.4%;transform:translateX(-50%);
   border-radius:50%;overflow:hidden;pointer-events:none;z-index:24;
 }
 .liquid-surface{
-  position:absolute;inset:-15% -8%;
+  position:absolute;inset:-18% -10%;
   background:
-    radial-gradient(ellipse at 50% 50%, rgba(255,255,255,.16) 0%, rgba(255,255,255,.03) 28%, transparent 58%),
-    repeating-linear-gradient(105deg, rgba(255,255,255,.17) 0 2px, rgba(255,255,255,0) 2px 18px),
-    linear-gradient(90deg, rgba(255,130,255,.06), rgba(255,255,255,.20), rgba(177,93,255,.08));
-  mix-blend-mode:screen;opacity:.82;
-  animation:liquidMove 2.8s linear infinite;
+    radial-gradient(ellipse at 50% 48%, rgba(255,255,255,.22) 0%, rgba(255,255,255,.08) 16%, rgba(255,255,255,0) 38%),
+    radial-gradient(ellipse at 35% 50%, rgba(255,170,255,.24) 0%, rgba(255,170,255,0) 36%),
+    radial-gradient(ellipse at 72% 55%, rgba(130,205,255,.18) 0%, rgba(130,205,255,0) 34%),
+    linear-gradient(180deg, rgba(255,170,255,.18), rgba(175,67,255,.48) 40%, rgba(93,18,153,.88) 100%);
+  opacity:.96;
+  animation:liquidMove 3.6s ease-in-out infinite;
 }
 .liquid-surface::before{
-  content:"";position:absolute;inset:0;
+  content:"";position:absolute;inset:-8% -12%;
   background:
-    repeating-radial-gradient(circle at 50% 50%, rgba(255,255,255,.08) 0 5px, rgba(255,255,255,0) 5px 22px),
-    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,0));
-  animation:liquidPulse 1.9s ease-in-out infinite alternate;
+    repeating-radial-gradient(ellipse at 50% 55%, rgba(255,255,255,.11) 0 4px, rgba(255,255,255,0) 4px 18px),
+    repeating-linear-gradient(96deg, rgba(255,255,255,.08) 0 2px, rgba(255,255,255,0) 2px 16px);
+  opacity:.65;
   mix-blend-mode:screen;
+  animation:liquidRipple 2.4s linear infinite;
+}
+.liquid-surface::after{
+  content:"";position:absolute;left:-8%;right:-8%;top:16%;height:34%;
+  background:linear-gradient(180deg, rgba(255,255,255,.34), rgba(255,255,255,0));
+  border-radius:50%;filter:blur(4px);opacity:.7;
+  animation:liquidShine 2.8s ease-in-out infinite;
 }
 .liquid-glow{
-  position:absolute;left:50%;top:15.5%;width:70%;height:14%;transform:translateX(-50%);
+  position:absolute;left:50%;top:15.2%;width:72%;height:15%;transform:translateX(-50%);
   border-radius:50%;
-  background:radial-gradient(ellipse, rgba(230,120,255,.26) 0%, rgba(175,56,255,.14) 45%, transparent 72%);
-  filter:blur(8px);pointer-events:none;z-index:23;animation:glowPulse 2s ease-in-out infinite alternate;
+  background:radial-gradient(ellipse, rgba(230,120,255,.30) 0%, rgba(175,56,255,.18) 45%, transparent 75%);
+  filter:blur(10px);pointer-events:none;z-index:23;animation:glowPulse 2.2s ease-in-out infinite alternate;
 }
 @keyframes liquidMove{
-  0%{transform:translateX(-2%) translateY(0) scale(1.02)}
-  50%{transform:translateX(2%) translateY(-2%) scale(1.06)}
-  100%{transform:translateX(-2%) translateY(0) scale(1.02)}
+  0%{transform:translateX(-2.5%) translateY(1%) scale(1.02)}
+  25%{transform:translateX(1.5%) translateY(-1.5%) scale(1.05)}
+  50%{transform:translateX(3%) translateY(.5%) scale(1.06)}
+  75%{transform:translateX(-1%) translateY(-1%) scale(1.04)}
+  100%{transform:translateX(-2.5%) translateY(1%) scale(1.02)}
 }
-@keyframes liquidPulse{from{opacity:.45;transform:scale(1)}to{opacity:.9;transform:scale(1.06)}}
-@keyframes glowPulse{from{opacity:.4;transform:translateX(-50%) scale(.98)}to{opacity:.8;transform:translateX(-50%) scale(1.03)}}
+@keyframes liquidRipple{
+  0%{transform:translateX(-2%) scale(1);opacity:.42}
+  50%{transform:translateX(2%) scale(1.04);opacity:.74}
+  100%{transform:translateX(-2%) scale(1);opacity:.42}
+}
+@keyframes liquidShine{
+  0%,100%{transform:translateX(-8%) scaleX(.96);opacity:.45}
+  50%{transform:translateX(8%) scaleX(1.04);opacity:.88}
+}
+@keyframes glowPulse{from{opacity:.42;transform:translateX(-50%) scale(.985)}to{opacity:.85;transform:translateX(-50%) scale(1.04)}}
 
-/* POSISI GELEMBUNG & ASAP TEPAT DI MULUT KUALI */
+/* POSISI GELEMBUNG & ASAP */
 #bubbles{
   position:absolute;left:50%;top:13%;width:64%;height:16%;transform:translateX(-50%);
   pointer-events:none;overflow:visible;z-index:40;
@@ -164,17 +182,45 @@ button{font:inherit}
   100%{transform:translate(0,0) rotate(0deg)}
 }
 
+/* EFEK TUANGAN LEBIH REALISTIS */
 .stream{
-  position:absolute;left:50%;bottom:304px;width:12px;height:104px;
-  transform:translateX(-50%) rotate(3deg) scaleY(0);transform-origin:top center;border-radius:50%;
-  background:linear-gradient(to bottom,var(--c1,#f2c1ff),var(--c2,#cf55ff) 18%,var(--c3,#8a1dcc) 78%);
-  box-shadow:0 0 13px var(--glow,#d76cff);opacity:0;z-index:115;pointer-events:none;
+  position:absolute;left:50%;bottom:303px;width:22px;height:110px;
+  transform:translateX(-50%) rotate(4deg) scaleY(0);transform-origin:top center;
+  opacity:0;z-index:115;pointer-events:none;filter:drop-shadow(0 0 12px var(--glow,#d76cff));
+}
+.stream::before{
+  content:"";position:absolute;left:50%;top:0;transform:translateX(-50%);
+  width:100%;height:100%;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.78) 0%, rgba(255,255,255,.18) 10%, transparent 22%),
+    radial-gradient(ellipse at 50% 12%, rgba(255,255,255,.35) 0%, rgba(255,255,255,0) 48%),
+    linear-gradient(180deg, var(--c1,#f6d0ff) 0%, var(--c2,#cf55ff) 36%, var(--c3,#8a1dcc) 100%);
+  border-radius:55% 45% 42% 58% / 14% 14% 86% 86%;
+  clip-path:polygon(42% 0%, 58% 0%, 75% 16%, 73% 36%, 68% 55%, 62% 76%, 57% 100%, 43% 100%, 37% 77%, 31% 54%, 27% 34%, 25% 16%);
+  box-shadow:inset 3px 0 4px rgba(255,255,255,.22), inset -3px 0 5px rgba(72,0,124,.32), 0 0 12px var(--glow,#d76cff);
+  animation:streamFlow .28s linear infinite;
+}
+.stream::after{
+  content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);
+  width:46px;height:18px;border-radius:50%;
+  background:radial-gradient(ellipse, rgba(255,255,255,.74) 0%, var(--c2,#cf55ff) 28%, rgba(255,255,255,0) 72%);
+  filter:blur(1.8px);opacity:.92;
+  animation:splashPulse .32s ease-in-out infinite alternate;
 }
 .stream.show{animation:streamPour 1.08s ease-in-out both}
 @keyframes streamPour{
-  0%{opacity:0;transform:translateX(-50%) rotate(3deg) scaleY(0)}
-  18%,78%{opacity:.96;transform:translateX(-50%) rotate(3deg) scaleY(1)}
-  100%{opacity:0;transform:translateX(-50%) rotate(3deg) scaleY(.20)}
+  0%{opacity:0;transform:translateX(-50%) rotate(4deg) scaleY(0)}
+  18%,78%{opacity:.98;transform:translateX(-50%) rotate(4deg) scaleY(1)}
+  100%{opacity:0;transform:translateX(-50%) rotate(4deg) scaleY(.20)}
+}
+@keyframes streamFlow{
+  0%{transform:translateX(-50%) skewX(-2deg) scaleX(.96)}
+  50%{transform:translateX(-50%) skewX(2deg) scaleX(1.05)}
+  100%{transform:translateX(-50%) skewX(-2deg) scaleX(.96)}
+}
+@keyframes splashPulse{
+  from{transform:translateX(-50%) scale(.92);opacity:.6}
+  to{transform:translateX(-50%) scale(1.1);opacity:1}
 }
 
 /* DESKTOP & MOBILE */
