@@ -33,19 +33,13 @@ button{
 /* =========================================
    BACKGROUND
 ========================================= */
-
 .scene{
     position:relative;
     width:100vw;
     height:100vh;
     min-height:100svh;
     overflow:hidden;
-
-    background:
-    #09050d
-    url("https://plcl.me/images/ohwiK.png")
-    center center / cover no-repeat;
-
+    background:#09050d url("https://plcl.me/images/ohwiK.png") center center / cover no-repeat;
     user-select:none;
     -webkit-user-select:none;
     isolation:isolate;
@@ -55,15 +49,7 @@ button{
     content:"";
     position:absolute;
     inset:0;
-
-    background:
-    linear-gradient(
-        to bottom,
-        transparent 0%,
-        transparent 58%,
-        rgba(0,0,0,.20) 100%
-    );
-
+    background:linear-gradient(to bottom,transparent 0%,transparent 58%,rgba(0,0,0,.20) 100%);
     pointer-events:none;
     z-index:1;
 }
@@ -71,570 +57,287 @@ button{
 /* =========================================
    MAIN STAGE
 ========================================= */
-
 .stage{
     position:absolute;
-
     left:50%;
     bottom:1.5%;
-
     width:920px;
     height:720px;
-
-    transform:
-    translateX(-50%);
-
-    transform-origin:
-    center bottom;
-
+    transform:translateX(-50%);
+    transform-origin:center bottom;
     z-index:10;
 }
 
 /* =========================================
    CAULDRON PNG
 ========================================= */
-
 .cauldron-zone{
     position:absolute;
-
     left:50%;
     bottom:22px;
-
     width:410px;
     height:410px;
-
-    transform:
-    translateX(-50%);
-
+    transform:translateX(-50%);
     z-index:30;
 }
 
-/* bayangan lantai */
-
 .cauldron-shadow{
     position:absolute;
-
     left:50%;
     bottom:4px;
-
     width:310px;
     height:48px;
-
-    transform:
-    translateX(-50%);
-
+    transform:translateX(-50%);
     border-radius:50%;
-
-    background:
-    radial-gradient(
-        ellipse,
-        rgba(0,0,0,.75) 0%,
-        rgba(0,0,0,.35) 48%,
-        transparent 76%
-    );
-
-    filter:
-    blur(10px);
-
+    background:radial-gradient(ellipse,rgba(0,0,0,.75) 0%,rgba(0,0,0,.35) 48%,transparent 76%);
+    filter:blur(10px);
     z-index:1;
 }
 
-/* GAMBAR KUALI */
-
 .cauldron-img{
     position:absolute;
-
     inset:0;
-
     width:100%;
     height:100%;
-
     object-fit:contain;
     object-position:center bottom;
-
     z-index:20;
-
     pointer-events:none;
     user-select:none;
     -webkit-user-drag:none;
-
-    filter:
-    drop-shadow(
-        0 22px 22px
-        rgba(0,0,0,.38)
-    );
+    filter:drop-shadow(0 22px 22px rgba(0,0,0,.38));
 }
 
-/* area permukaan ramuan */
-
+/* Efek diletakkan di mulut kuali PNG */
 .liquid-hit-area{
     position:absolute;
-
     left:50%;
     top:14.5%;
-
     width:72%;
     height:15%;
-
-    transform:
-    translateX(-50%);
-
+    transform:translateX(-50%);
     border-radius:50%;
-
     pointer-events:none;
-
     z-index:27;
 }
 
-/* =========================================
-   BUBBLE POSITION
-========================================= */
-
 #bubbles{
     position:absolute;
-
     left:50%;
-    top:7%;
-
+    top:2%;
     width:72%;
-    height:34%;
-
-    transform:
-    translateX(-50%);
-
+    height:40%;
+    transform:translateX(-50%);
     pointer-events:none;
     overflow:visible;
-
     z-index:40;
 }
 
-/* =========================================
-   SMOKE POSITION
-========================================= */
-
 #smoke{
     position:absolute;
-
     left:50%;
-    top:-34%;
-
-    width:128%;
-    height:88%;
-
-    transform:
-    translateX(-50%);
-
+    top:-36%;
+    width:138%;
+    height:96%;
+    transform:translateX(-50%);
     pointer-events:none;
     overflow:visible;
-
     z-index:42;
 }
 
-/* =========================================
-   MAGIC RING
-========================================= */
-
 .magic-ring{
     position:absolute;
-
     left:50%;
     top:14.2%;
-
     width:67%;
     height:13%;
-
-    transform:
-    translateX(-50%)
-    scale(.55);
-
+    transform:translateX(-50%) scale(.55);
     border-radius:50%;
-
-    border:
-    2px solid
-    rgba(244,191,255,.28);
-
-    box-shadow:
-    0 0 16px rgba(204,84,255,.22),
-    inset 0 0 12px rgba(221,132,255,.13);
-
+    border:2px solid rgba(244,191,255,.28);
+    box-shadow:0 0 16px rgba(204,84,255,.22), inset 0 0 12px rgba(221,132,255,.13);
     opacity:.15;
-
     z-index:35;
-
     pointer-events:none;
-
-    animation:
-    ringIdle 1.8s
-    ease-in-out
-    infinite alternate;
+    animation:ringIdle 1.8s ease-in-out infinite alternate;
 }
 
 @keyframes ringIdle{
-
     to{
         opacity:.38;
-
-        transform:
-        translateX(-50%)
-        scale(1.02);
+        transform:translateX(-50%) scale(1.02);
     }
-
 }
-
-/* =========================================
-   FLASH
-========================================= */
 
 .flash{
     position:absolute;
-
     left:50%;
     top:8%;
-
     width:72%;
     height:30%;
-
-    transform:
-    translateX(-50%)
-    scale(.25);
-
+    transform:translateX(-50%) scale(.25);
     border-radius:50%;
-
-    background:
-    radial-gradient(
-        ellipse,
-        var(--glow,rgba(215,108,255,.68)),
-        rgba(178,57,255,.22) 42%,
-        transparent 74%
-    );
-
-    filter:
-    blur(8px);
-
+    background:radial-gradient(ellipse,var(--glow,rgba(215,108,255,.68)),rgba(178,57,255,.22) 42%,transparent 74%);
+    filter:blur(8px);
     opacity:0;
-
     z-index:38;
-
     pointer-events:none;
 }
 
 .flash.show{
-    animation:
-    flash .9s
-    ease-out both;
+    animation:flash .9s ease-out both;
 }
 
 @keyframes flash{
-
     0%{
         opacity:0;
-
-        transform:
-        translateX(-50%)
-        scale(.25);
+        transform:translateX(-50%) scale(.25);
     }
-
     35%{
         opacity:1;
-
-        transform:
-        translateX(-50%)
-        scale(1.05);
+        transform:translateX(-50%) scale(1.05);
     }
-
     100%{
         opacity:0;
-
-        transform:
-        translateX(-50%)
-        scale(1.55);
+        transform:translateX(-50%) scale(1.55);
     }
-
 }
 
 /* =========================================
    BUBBLES
 ========================================= */
-
 .bubble{
     position:absolute;
-
     bottom:7%;
-
     border-radius:50%;
-
-    background:
-    radial-gradient(
-        circle at 28% 23%,
-        rgba(255,255,255,.94) 0%,
-        rgba(238,171,255,.70) 13%,
-        rgba(194,75,255,.46) 42%,
-        rgba(108,8,168,.55) 78%
-    );
-
-    border:
-    1px solid
-    rgba(244,197,255,.66);
-
-    box-shadow:
-    0 0 10px
-    rgba(190,71,255,.30);
-
-    animation:
-    bubbleRise
-    var(--duration)
-    ease-out forwards;
+    background:radial-gradient(circle at 28% 23%,rgba(255,255,255,.94) 0%,rgba(238,171,255,.70) 13%,rgba(194,75,255,.46) 42%,rgba(108,8,168,.55) 78%);
+    border:1px solid rgba(244,197,255,.66);
+    box-shadow:0 0 10px rgba(190,71,255,.30);
+    animation:bubbleRise var(--duration) ease-out forwards;
 }
 
 @keyframes bubbleRise{
-
     0%{
         opacity:0;
-
-        transform:
-        translate(0,5px)
-        scale(.20);
+        transform:translate(0,5px) scale(.20);
     }
-
     15%{
         opacity:1;
     }
-
     58%{
         opacity:.95;
-
-        transform:
-        translate(
-            var(--drift1),
-            -38px
-        )
-        scale(.92);
+        transform:translate(var(--drift1),-38px) scale(.92);
     }
-
     100%{
         opacity:0;
-
-        transform:
-        translate(
-            var(--drift2),
-            -94px
-        )
-        scale(1.45);
+        transform:translate(var(--drift2),-94px) scale(1.45);
     }
-
 }
 
 /* =========================================
    SMOKE
 ========================================= */
-
 .smoke-particle{
     position:absolute;
-
     bottom:-5%;
-
     width:var(--size);
-
-    height:
-    calc(var(--size) * 1.42);
-
+    height:calc(var(--size) * 1.42);
     border-radius:50%;
-
-    background:
-    radial-gradient(
-        ellipse at 50% 55%,
-        rgba(228,151,255,.62) 0%,
-        rgba(194,82,255,.47) 20%,
-        rgba(147,42,218,.31) 43%,
-        rgba(95,18,145,.14) 68%,
-        transparent 100%
-    );
-
-    filter:
-    blur(var(--blur));
-
+    background:radial-gradient(ellipse at 50% 55%,rgba(228,151,255,.62) 0%,rgba(194,82,255,.47) 20%,rgba(147,42,218,.31) 43%,rgba(95,18,145,.14) 68%,transparent 100%);
+    filter:blur(var(--blur));
     opacity:0;
-
-    animation:
-    smokeRise
-    var(--duration)
-    cubic-bezier(.18,.45,.38,1)
-    forwards;
+    animation:smokeRise var(--duration) cubic-bezier(.18,.45,.38,1) forwards;
 }
 
 @keyframes smokeRise{
-
     0%{
         opacity:0;
-
-        transform:
-        translate(-50%,10px)
-        scale(.34);
+        transform:translate(-50%,10px) scale(.34);
     }
-
     10%{
-        opacity:
-        var(--opacity);
+        opacity:var(--opacity);
     }
-
     42%{
-        opacity:
-        var(--opacity-mid);
-
-        transform:
-        translate(
-            calc(-50% + var(--drift1)),
-            -75px
-        )
-        scale(1.05);
+        opacity:var(--opacity-mid);
+        transform:translate(calc(-50% + var(--drift1)),-75px) scale(1.05);
     }
-
     72%{
-        opacity:
-        var(--opacity-low);
-
-        transform:
-        translate(
-            calc(-50% + var(--drift2)),
-            -150px
-        )
-        scale(1.55);
+        opacity:var(--opacity-low);
+        transform:translate(calc(-50% + var(--drift2)),-150px) scale(1.55);
     }
-
     100%{
         opacity:0;
-
-        transform:
-        translate(
-            calc(-50% + var(--drift3)),
-            var(--rise)
-        )
-        scale(var(--scale));
+        transform:translate(calc(-50% + var(--drift3)),var(--rise)) scale(var(--scale));
     }
-
 }
 
 /* =========================================
    BOTTLES
 ========================================= */
-
 .bottles{
     position:absolute;
-
     right:-10px;
     bottom:0;
-
     width:450px;
     height:610px;
-
     z-index:120;
 }
 
 .bottle{
     position:absolute;
-
     width:145px;
     height:176px;
-
     border:0;
-
-    background:
-    transparent;
-
+    background:transparent;
     cursor:pointer;
-
     outline:none;
-
-    transform-origin:
-    50% 82%;
-
-    animation:
-    bottleFloat 3.1s
-    ease-in-out infinite;
-
+    transform-origin:50% 82%;
+    animation:bottleFloat 3.1s ease-in-out infinite;
     z-index:125;
-
     --pour-x:0px;
 }
 
-/* BOTOL UNGU */
-
 .bottle.purple{
-    left:4px;
+    left:28px;
     bottom:360px;
-
-    --pour-x:58px;
+    --pour-x:44px;
 }
 
-/* BOTOL HIJAU */
-
 .bottle.green{
-    left:148px;
+    left:176px;
     bottom:322px;
-
-    --pour-x:10px;
-
+    --pour-x:-6px;
     animation-delay:.42s;
 }
 
-/* BOTOL BIRU */
-
 .bottle.blue{
-    left:292px;
+    left:324px;
     bottom:354px;
-
-    --pour-x:-42px;
-
+    --pour-x:-54px;
     animation-delay:.84s;
 }
 
 .bottle:hover,
 .bottle:focus-visible{
-
-    filter:
-    brightness(1.10)
-    drop-shadow(
-        0 0 16px
-        rgba(206,94,255,.40)
-    );
+    filter:brightness(1.10) drop-shadow(0 0 16px rgba(206,94,255,.40));
 }
-
-/* GAMBAR BOTOL */
 
 .bottle img{
     position:absolute;
-
     inset:0;
-
     width:100%;
     height:100%;
-
     object-fit:contain;
     object-position:center bottom;
-
     pointer-events:none;
-
     user-select:none;
-
     -webkit-user-drag:none;
-
-    filter:
-    drop-shadow(
-        0 12px 11px
-        rgba(0,0,0,.20)
-    );
-
-    transition:
-    opacity .16s ease;
+    filter:drop-shadow(0 12px 11px rgba(0,0,0,.20));
+    transition:opacity .16s ease;
 }
-
-/* BOTOL TERTUTUP */
 
 .bottle .open{
     opacity:0;
 }
-
-/* KETIKA DI KLIK */
 
 .bottle.active .closed{
     opacity:0;
@@ -644,893 +347,334 @@ button{
     opacity:1;
 }
 
-/* ACTIVE */
-
 .bottle.active{
     z-index:175;
-
     pointer-events:none;
-
-    animation:
-    bottlePour
-    2.7s
-    cubic-bezier(.4,0,.2,1)
-    both;
-
-    filter:
-    brightness(1.12)
-    drop-shadow(
-        0 0 18px
-        var(--glow,rgba(205,85,255,.65))
-    );
+    animation:bottlePour 2.7s cubic-bezier(.4,0,.2,1) both;
+    filter:brightness(1.12) drop-shadow(0 0 18px var(--glow,rgba(205,85,255,.65)));
 }
-
-/* FLOAT */
 
 @keyframes bottleFloat{
-
     0%,100%{
-        transform:
-        translateY(0)
-        rotate(-1.5deg);
+        transform:translateY(0) rotate(-1.5deg);
     }
-
     50%{
-        transform:
-        translateY(-8px)
-        rotate(1.5deg);
+        transform:translateY(-8px) rotate(1.5deg);
     }
-
 }
 
-/* BOTOL MENUANG */
-
 @keyframes bottlePour{
-
     0%{
-        transform:
-        translate(0,0)
-        rotate(0deg);
+        transform:translate(0,0) rotate(0deg);
     }
-
     14%{
-        transform:
-        translate(-8px,-74px)
-        rotate(-8deg);
+        transform:translate(-8px,-74px) rotate(-8deg);
     }
-
     35%{
-        transform:
-        translate(
-            calc(var(--pour-x) * .35),
-            -150px
-        )
-        rotate(-28deg);
+        transform:translate(calc(var(--pour-x) * .35),-150px) rotate(-28deg);
     }
-
-    47%,
-    70%{
-        transform:
-        translate(
-            var(--pour-x),
-            -214px
-        )
-        rotate(-72deg);
+    47%,70%{
+        transform:translate(var(--pour-x),-194px) rotate(-72deg);
     }
-
     79%{
-        transform:
-        translate(
-            calc(var(--pour-x) * .24),
-            -138px
-        )
-        rotate(-24deg);
+        transform:translate(calc(var(--pour-x) * .24),-138px) rotate(-24deg);
     }
-
     100%{
-        transform:
-        translate(0,0)
-        rotate(0deg);
+        transform:translate(0,0) rotate(0deg);
     }
-
 }
 
 /* =========================================
    POUR STREAM
 ========================================= */
-
 .stream{
     position:absolute;
-
     left:50%;
     bottom:292px;
-
     width:12px;
-    height:142px;
-
-    transform:
-    translateX(-50%)
-    rotate(3deg)
-    scaleY(0);
-
-    transform-origin:
-    top center;
-
+    height:128px;
+    transform:translateX(-50%) rotate(3deg) scaleY(0);
+    transform-origin:top center;
     border-radius:50%;
-
-    background:
-    linear-gradient(
-        to bottom,
-        var(--c1,#f2c1ff),
-        var(--c2,#cf55ff) 18%,
-        var(--c3,#8a1dcc) 78%
-    );
-
-    box-shadow:
-    0 0 13px
-    var(--glow,#d76cff);
-
+    background:linear-gradient(to bottom,var(--c1,#f2c1ff),var(--c2,#cf55ff) 18%,var(--c3,#8a1dcc) 78%);
+    box-shadow:0 0 13px var(--glow,#d76cff);
     opacity:0;
-
     z-index:115;
-
     pointer-events:none;
 }
 
 .stream.show{
-    animation:
-    streamPour
-    1.08s
-    ease-in-out both;
+    animation:streamPour 1.08s ease-in-out both;
 }
 
 @keyframes streamPour{
-
     0%{
         opacity:0;
-
-        transform:
-        translateX(-50%)
-        rotate(3deg)
-        scaleY(0);
+        transform:translateX(-50%) rotate(3deg) scaleY(0);
     }
-
-    18%,
-    78%{
+    18%,78%{
         opacity:.96;
-
-        transform:
-        translateX(-50%)
-        rotate(3deg)
-        scaleY(1);
+        transform:translateX(-50%) rotate(3deg) scaleY(1);
     }
-
     100%{
         opacity:0;
-
-        transform:
-        translateX(-50%)
-        rotate(3deg)
-        scaleY(.20);
+        transform:translateX(-50%) rotate(3deg) scaleY(.20);
     }
-
 }
 
 /* =========================================
    RESPONSIVE
 ========================================= */
-
 @media(max-width:980px){
-
     .stage{
-        transform:
-        translateX(-50%)
-        scale(.88);
+        transform:translateX(-50%) scale(.88);
     }
-
 }
 
 @media(max-width:760px){
-
     .stage{
         bottom:0;
-
-        transform:
-        translateX(-50%)
-        scale(.72);
+        transform:translateX(-50%) scale(.72);
     }
-
 }
 
 @media(max-width:540px){
-
     .stage{
         bottom:1%;
-
-        transform:
-        translateX(-50%)
-        scale(.60);
+        transform:translateX(-50%) scale(.60);
     }
-
 }
 
 @media(max-width:420px){
-
     .stage{
         bottom:2%;
-
-        transform:
-        translateX(-50%)
-        scale(.53);
+        transform:translateX(-50%) scale(.53);
     }
-
 }
 
-@media(max-height:620px)
-and (orientation:landscape){
-
+@media(max-height:620px) and (orientation:landscape){
     .stage{
         bottom:-4%;
-
-        transform:
-        translateX(-50%)
-        scale(.68);
+        transform:translateX(-50%) scale(.68);
     }
-
 }
 </style>
 </head>
 
 <body>
+<main class="scene" id="scene">
+    <section class="stage">
 
-<main
-class="scene"
-id="scene"
->
+        <!-- KUALI DARI PNG -->
+        <div class="cauldron-zone">
+            <div class="cauldron-shadow"></div>
 
-<section class="stage">
+            <img
+                src="assets/cauldron.png"
+                class="cauldron-img"
+                alt="Kuali sihir"
+                draggable="false"
+            >
 
-<!-- =====================================
-     KUALI PNG
-===================================== -->
+            <div class="liquid-hit-area"></div>
+            <div class="magic-ring"></div>
+            <div id="bubbles"></div>
+            <div id="smoke"></div>
+            <div class="flash" id="flash"></div>
+        </div>
 
-<div class="cauldron-zone">
+        <!-- ALIRAN RAMUAN -->
+        <div class="stream" id="stream"></div>
 
-<div class="cauldron-shadow"></div>
+        <!-- BOTOL -->
+        <div class="bottles">
 
-<img
-src="assets/cauldron.png"
-class="cauldron-img"
-alt="Kuali sihir"
-draggable="false"
->
+            <button
+                class="bottle purple"
+                type="button"
+                aria-label="Ramuan ungu"
+                data-c1="#f4c5ff"
+                data-c2="#d052ff"
+                data-c3="#8617cc"
+                data-glow="rgba(220,98,255,.78)"
+            >
+                <img class="closed" src="assets/potion-purple-closed.png" alt="Ramuan ungu tertutup">
+                <img class="open" src="assets/potion-purple-open.png" alt="Ramuan ungu terbuka">
+            </button>
 
-<div class="liquid-hit-area"></div>
+            <button
+                class="bottle green"
+                type="button"
+                aria-label="Ramuan hijau"
+                data-c1="#e1ffd6"
+                data-c2="#73ff72"
+                data-c3="#169747"
+                data-glow="rgba(116,255,126,.76)"
+            >
+                <img class="closed" src="assets/potion-green-closed.png" alt="Ramuan hijau tertutup">
+                <img class="open" src="assets/potion-green-open.png" alt="Ramuan hijau terbuka">
+            </button>
 
-<div class="magic-ring"></div>
+            <button
+                class="bottle blue"
+                type="button"
+                aria-label="Ramuan biru"
+                data-c1="#dffaff"
+                data-c2="#56c8ff"
+                data-c3="#056eea"
+                data-glow="rgba(104,201,255,.78)"
+            >
+                <img class="closed" src="assets/potion-blue-closed.png" alt="Ramuan biru tertutup">
+                <img class="open" src="assets/potion-blue-open.png" alt="Ramuan biru terbuka">
+            </button>
 
-<div id="bubbles"></div>
+        </div>
 
-<div id="smoke"></div>
-
-<div
-class="flash"
-id="flash"
-></div>
-
-</div>
-
-<!-- =====================================
-     ALIRAN RAMUAN
-===================================== -->
-
-<div
-class="stream"
-id="stream"
-></div>
-
-<!-- =====================================
-     BOTOL RAMUAN
-===================================== -->
-
-<div class="bottles">
-
-<!-- UNGU -->
-
-<button
-class="bottle purple"
-type="button"
-aria-label="Ramuan ungu"
-
-data-c1="#f4c5ff"
-data-c2="#d052ff"
-data-c3="#8617cc"
-data-glow="rgba(220,98,255,.78)"
->
-
-<img
-class="closed"
-src="assets/potion-purple-closed.png"
-alt="Ramuan ungu tertutup"
->
-
-<img
-class="open"
-src="assets/potion-purple-open.png"
-alt="Ramuan ungu terbuka"
->
-
-</button>
-
-<!-- HIJAU -->
-
-<button
-class="bottle green"
-type="button"
-aria-label="Ramuan hijau"
-
-data-c1="#e1ffd6"
-data-c2="#73ff72"
-data-c3="#169747"
-data-glow="rgba(116,255,126,.76)"
->
-
-<img
-class="closed"
-src="assets/potion-green-closed.png"
-alt="Ramuan hijau tertutup"
->
-
-<img
-class="open"
-src="assets/potion-green-open.png"
-alt="Ramuan hijau terbuka"
->
-
-</button>
-
-<!-- BIRU -->
-
-<button
-class="bottle blue"
-type="button"
-aria-label="Ramuan biru"
-
-data-c1="#dffaff"
-data-c2="#56c8ff"
-data-c3="#056eea"
-data-glow="rgba(104,201,255,.78)"
->
-
-<img
-class="closed"
-src="assets/potion-blue-closed.png"
-alt="Ramuan biru tertutup"
->
-
-<img
-class="open"
-src="assets/potion-blue-open.png"
-alt="Ramuan biru terbuka"
->
-
-</button>
-
-</div>
-
-</section>
-
+    </section>
 </main>
 
 <script>
 (()=>{
-
-"use strict";
-
-const scene =
-document.getElementById("scene");
-
-const bottles = [
-...document.querySelectorAll(".bottle")
-];
-
-const bubbles =
-document.getElementById("bubbles");
-
-const smoke =
-document.getElementById("smoke");
-
-const stream =
-document.getElementById("stream");
-
-const flash =
-document.getElementById("flash");
-
-let busy = false;
-
-let bubbleTimer;
-
-let smokeTimer;
-
-
-/* =========================================
-   RANDOM
-========================================= */
-
-const random =
-(min,max) =>
-Math.random() * (max-min) + min;
-
-
-/* =========================================
-   BUBBLE
-========================================= */
-
-function makeBubble(
-big=false
-){
-
-if(document.hidden)
-return;
-
-const b =
-document.createElement("span");
-
-b.className =
-"bubble";
-
-const size =
-random(
-big ? 11 : 6,
-big ? 27 : 18
-);
-
-b.style.width =
-`${size}px`;
-
-b.style.height =
-`${size * random(.70,1)}px`;
-
-b.style.left =
-`${random(12,88)}%`;
-
-b.style.setProperty(
-"--duration",
-`${random(
-big ? .70 : 1.15,
-big ? 1.18 : 2.05
-)}s`
-);
-
-b.style.setProperty(
-"--drift1",
-`${random(-22,22)}px`
-);
-
-b.style.setProperty(
-"--drift2",
-`${random(-44,44)}px`
-);
-
-bubbles.appendChild(b);
-
-b.addEventListener(
-"animationend",
-()=>b.remove(),
-{
-once:true
-}
-);
-
-}
-
-
-/* =========================================
-   SMOKE
-========================================= */
-
-function makeSmoke(
-big=false
-){
-
-if(document.hidden)
-return;
-
-const s =
-document.createElement("span");
-
-s.className =
-"smoke-particle";
-
-const size =
-random(
-big ? 92 : 66,
-big ? 178 : 132
-);
-
-s.style.left =
-`${random(31,69)}%`;
-
-s.style.setProperty(
-"--size",
-`${size}px`
-);
-
-s.style.setProperty(
-"--blur",
-`${random(12,23)}px`
-);
-
-s.style.setProperty(
-"--duration",
-`${random(
-big ? 2.15 : 3.1,
-big ? 3.5 : 5.0
-)}s`
-);
-
-s.style.setProperty(
-"--opacity",
-big
-? random(.48,.67)
-: random(.25,.43)
-);
-
-s.style.setProperty(
-"--opacity-mid",
-big
-? random(.31,.48)
-: random(.16,.30)
-);
-
-s.style.setProperty(
-"--opacity-low",
-big
-? random(.14,.27)
-: random(.07,.16)
-);
-
-s.style.setProperty(
-"--drift1",
-`${random(-34,34)}px`
-);
-
-s.style.setProperty(
-"--drift2",
-`${random(-72,72)}px`
-);
-
-s.style.setProperty(
-"--drift3",
-`${random(-116,116)}px`
-);
-
-s.style.setProperty(
-"--rise",
-`${random(-290,-210)}px`
-);
-
-s.style.setProperty(
-"--scale",
-random(1.75,2.45)
-);
-
-smoke.appendChild(s);
-
-s.addEventListener(
-"animationend",
-()=>s.remove(),
-{
-once:true
-}
-);
-
-}
-
-
-/* =========================================
-   RESTART ANIMATION
-========================================= */
-
-function restartAnimation(
-element,
-className
-){
-
-element.classList.remove(
-className
-);
-
-void element.offsetWidth;
-
-element.classList.add(
-className
-);
-
-}
-
-
-/* =========================================
-   STRONG EFFECT
-========================================= */
-
-function burst(){
-
-for(
-let i=0;
-i<12;
-i++
-){
-
-setTimeout(
-()=>makeBubble(true),
-i*45
-);
-
-}
-
-for(
-let i=0;
-i<10;
-i++
-){
-
-setTimeout(
-()=>makeSmoke(true),
-i*68
-);
-
-}
-
-}
-
-
-/* =========================================
-   POTION COLOR
-========================================= */
-
-function setPotionColors(
-button
-){
-
-scene.style.setProperty(
-"--c1",
-button.dataset.c1
-);
-
-scene.style.setProperty(
-"--c2",
-button.dataset.c2
-);
-
-scene.style.setProperty(
-"--c3",
-button.dataset.c3
-);
-
-scene.style.setProperty(
-"--glow",
-button.dataset.glow
-);
-
-}
-
-
-/* =========================================
-   BOTTLE CLICK
-========================================= */
-
-function activateBottle(
-button
-){
-
-if(busy)
-return;
-
-busy = true;
-
-setPotionColors(
-button
-);
-
-
-/* disable botol lain */
-
-bottles.forEach(
-b =>
-b.disabled = true
-);
-
-
-/* ganti closed ke open */
-
-button.classList.add(
-"active"
-);
-
-
-/* mulai tuang */
-
-setTimeout(
-()=>{
-
-restartAnimation(
-stream,
-"show"
-);
-
-restartAnimation(
-flash,
-"show"
-);
-
-burst();
-
-},
-1120
-);
-
-
-/* kembali ke posisi awal */
-
-setTimeout(
-()=>{
-
-button.classList.remove(
-"active"
-);
-
-stream.classList.remove(
-"show"
-);
-
-flash.classList.remove(
-"show"
-);
-
-bottles.forEach(
-b =>
-b.disabled = false
-);
-
-busy = false;
-
-},
-2740
-);
-
-}
-
-
-/* EVENT CLICK */
-
-bottles.forEach(
-button => {
-
-button.addEventListener(
-"click",
-()=>activateBottle(button)
-);
-
-}
-);
-
-
-/* =========================================
-   AMBIENT EFFECT
-========================================= */
-
-function startAmbient(){
-
-clearInterval(
-bubbleTimer
-);
-
-clearInterval(
-smokeTimer
-);
-
-bubbleTimer =
-setInterval(
-()=>makeBubble(false),
-270
-);
-
-smokeTimer =
-setInterval(
-()=>{
-
-if(
-Math.random()>.30
-){
-
-makeSmoke(false);
-
-}
-
-},
-390
-);
-
-}
-
-startAmbient();
-
-
-/* efek saat pertama buka */
-
-for(
-let i=0;
-i<7;
-i++
-){
-
-setTimeout(
-()=>makeBubble(false),
-i*120
-);
-
-if(i<5){
-
-setTimeout(
-()=>makeSmoke(false),
-i*170
-);
-
-}
-
-}
-
-
-/* =========================================
-   TAB VISIBILITY
-========================================= */
-
-document.addEventListener(
-"visibilitychange",
-()=>{
-
-if(
-document.hidden
-){
-
-clearInterval(
-bubbleTimer
-);
-
-clearInterval(
-smokeTimer
-);
-
-}else{
-
-startAmbient();
-
-}
-
-}
-);
-
-
-/* block pinch zoom IOS */
-
-document.addEventListener(
-"gesturestart",
-e => e.preventDefault()
-);
-
-document.addEventListener(
-"gesturechange",
-e => e.preventDefault()
-);
-
-document.addEventListener(
-"gestureend",
-e => e.preventDefault()
-);
-
+    "use strict";
+
+    const scene = document.getElementById("scene");
+    const bottles = [...document.querySelectorAll(".bottle")];
+    const bubbles = document.getElementById("bubbles");
+    const smoke = document.getElementById("smoke");
+    const stream = document.getElementById("stream");
+    const flash = document.getElementById("flash");
+
+    let busy = false;
+    let bubbleTimer;
+    let smokeTimer;
+
+    const random = (min,max) => Math.random() * (max-min) + min;
+
+    function makeBubble(big=false){
+        if(document.hidden) return;
+
+        const b = document.createElement("span");
+        b.className = "bubble";
+
+        const size = random(big ? 11 : 6, big ? 27 : 18);
+
+        b.style.width = `${size}px`;
+        b.style.height = `${size * random(.70,1)}px`;
+        b.style.left = `${random(12,88)}%`;
+        b.style.setProperty("--duration", `${random(big ? .70 : 1.15, big ? 1.18 : 2.05)}s`);
+        b.style.setProperty("--drift1", `${random(-22,22)}px`);
+        b.style.setProperty("--drift2", `${random(-44,44)}px`);
+
+        bubbles.appendChild(b);
+        b.addEventListener("animationend",()=>b.remove(),{once:true});
+    }
+
+    function makeSmoke(big=false){
+        if(document.hidden) return;
+
+        const s = document.createElement("span");
+        s.className = "smoke-particle";
+
+        const size = random(big ? 92 : 78, big ? 178 : 146);
+
+        s.style.left = `${random(31,69)}%`;
+        s.style.setProperty("--size", `${size}px`);
+        s.style.setProperty("--blur", `${random(12,23)}px`);
+        s.style.setProperty("--duration", `${random(big ? 2.15 : 3.1, big ? 3.5 : 5.0)}s`);
+        s.style.setProperty("--opacity", big ? random(.48,.67) : random(.32,.50));
+        s.style.setProperty("--opacity-mid", big ? random(.31,.48) : random(.22,.36));
+        s.style.setProperty("--opacity-low", big ? random(.14,.27) : random(.10,.20));
+        s.style.setProperty("--drift1", `${random(-34,34)}px`);
+        s.style.setProperty("--drift2", `${random(-72,72)}px`);
+        s.style.setProperty("--drift3", `${random(-116,116)}px`);
+        s.style.setProperty("--rise", `${random(-290,-210)}px`);
+        s.style.setProperty("--scale", random(1.75,2.45));
+
+        smoke.appendChild(s);
+        s.addEventListener("animationend",()=>s.remove(),{once:true});
+    }
+
+    function restartAnimation(el,className){
+        el.classList.remove(className);
+        void el.offsetWidth;
+        el.classList.add(className);
+    }
+
+    function burst(){
+        for(let i=0;i<12;i++){
+            setTimeout(()=>makeBubble(true),i*45);
+        }
+
+        for(let i=0;i<10;i++){
+            setTimeout(()=>makeSmoke(true),i*68);
+        }
+    }
+
+    function setPotionColors(button){
+        scene.style.setProperty("--c1",button.dataset.c1);
+        scene.style.setProperty("--c2",button.dataset.c2);
+        scene.style.setProperty("--c3",button.dataset.c3);
+        scene.style.setProperty("--glow",button.dataset.glow);
+    }
+
+    function activateBottle(button){
+        if(busy) return;
+
+        busy = true;
+        setPotionColors(button);
+
+        bottles.forEach(b=>b.disabled=true);
+        button.classList.add("active");
+
+        setTimeout(()=>{
+            restartAnimation(stream,"show");
+            restartAnimation(flash,"show");
+            burst();
+        },1120);
+
+        setTimeout(()=>{
+            button.classList.remove("active");
+            stream.classList.remove("show");
+            flash.classList.remove("show");
+            bottles.forEach(b=>b.disabled=false);
+            busy = false;
+        },2740);
+    }
+
+    bottles.forEach(button=>{
+        button.addEventListener("click",()=>activateBottle(button));
+    });
+
+    function startAmbient(){
+        clearInterval(bubbleTimer);
+        clearInterval(smokeTimer);
+
+        bubbleTimer = setInterval(()=>makeBubble(false),270);
+        smokeTimer = setInterval(()=>{
+            if(Math.random()>.18) makeSmoke(false);
+        },340);
+    }
+
+    startAmbient();
+
+    for(let i=0;i<7;i++){
+        setTimeout(()=>makeBubble(false),i*120);
+        if(i<5) setTimeout(()=>makeSmoke(false),i*170);
+    }
+
+    document.addEventListener("visibilitychange",()=>{
+        if(document.hidden){
+            clearInterval(bubbleTimer);
+            clearInterval(smokeTimer);
+        }else{
+            startAmbient();
+        }
+    });
+
+    document.addEventListener("gesturestart",e=>e.preventDefault());
+    document.addEventListener("gesturechange",e=>e.preventDefault());
+    document.addEventListener("gestureend",e=>e.preventDefault());
 })();
 </script>
-
 </body>
 </html>
