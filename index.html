@@ -124,9 +124,9 @@ button{
 #bubbles{
     position:absolute;
     left:50%;
-    top:2%;
-    width:72%;
-    height:40%;
+    top:-12%;
+    width:74%;
+    height:46%;
     transform:translateX(-50%);
     pointer-events:none;
     overflow:visible;
@@ -136,9 +136,9 @@ button{
 #smoke{
     position:absolute;
     left:50%;
-    top:-36%;
-    width:138%;
-    height:96%;
+    top:-50%;
+    width:145%;
+    height:108%;
     transform:translateX(-50%);
     pointer-events:none;
     overflow:visible;
@@ -275,9 +275,9 @@ button{
 ========================================= */
 .bottles{
     position:absolute;
-    right:-10px;
+    right:-55px;
     bottom:0;
-    width:450px;
+    width:430px;
     height:610px;
     z-index:120;
 }
@@ -294,25 +294,29 @@ button{
     animation:bottleFloat 3.1s ease-in-out infinite;
     z-index:125;
     --pour-x:0px;
+    --pour-y:60px;
 }
 
 .bottle.purple{
-    left:28px;
+    left:165px;
     bottom:360px;
-    --pour-x:44px;
+    --pour-x:-175px;
+    --pour-y:64px;
 }
 
 .bottle.green{
-    left:176px;
-    bottom:322px;
-    --pour-x:-6px;
+    left:250px;
+    bottom:332px;
+    --pour-x:-255px;
+    --pour-y:62px;
     animation-delay:.42s;
 }
 
 .bottle.blue{
-    left:324px;
-    bottom:354px;
-    --pour-x:-54px;
+    left:335px;
+    bottom:360px;
+    --pour-x:-335px;
+    --pour-y:64px;
     animation-delay:.84s;
 }
 
@@ -368,16 +372,16 @@ button{
         transform:translate(0,0) rotate(0deg);
     }
     14%{
-        transform:translate(-8px,-74px) rotate(-8deg);
+        transform:translate(-6px,-26px) rotate(-8deg);
     }
-    35%{
-        transform:translate(calc(var(--pour-x) * .35),-150px) rotate(-28deg);
+    38%{
+        transform:translate(calc(var(--pour-x) * .55),18px) rotate(-30deg);
     }
-    47%,70%{
-        transform:translate(var(--pour-x),-194px) rotate(-72deg);
+    50%,72%{
+        transform:translate(var(--pour-x),var(--pour-y)) rotate(-72deg);
     }
-    79%{
-        transform:translate(calc(var(--pour-x) * .24),-138px) rotate(-24deg);
+    82%{
+        transform:translate(calc(var(--pour-x) * .35),12px) rotate(-24deg);
     }
     100%{
         transform:translate(0,0) rotate(0deg);
@@ -390,9 +394,9 @@ button{
 .stream{
     position:absolute;
     left:50%;
-    bottom:292px;
+    bottom:300px;
     width:12px;
-    height:128px;
+    height:112px;
     transform:translateX(-50%) rotate(3deg) scaleY(0);
     transform-origin:top center;
     border-radius:50%;
@@ -575,15 +579,15 @@ button{
         const s = document.createElement("span");
         s.className = "smoke-particle";
 
-        const size = random(big ? 92 : 78, big ? 178 : 146);
+        const size = random(big ? 96 : 82, big ? 182 : 152);
 
         s.style.left = `${random(31,69)}%`;
         s.style.setProperty("--size", `${size}px`);
         s.style.setProperty("--blur", `${random(12,23)}px`);
         s.style.setProperty("--duration", `${random(big ? 2.15 : 3.1, big ? 3.5 : 5.0)}s`);
-        s.style.setProperty("--opacity", big ? random(.48,.67) : random(.32,.50));
-        s.style.setProperty("--opacity-mid", big ? random(.31,.48) : random(.22,.36));
-        s.style.setProperty("--opacity-low", big ? random(.14,.27) : random(.10,.20));
+        s.style.setProperty("--opacity", big ? random(.50,.70) : random(.35,.52));
+        s.style.setProperty("--opacity-mid", big ? random(.34,.52) : random(.24,.38));
+        s.style.setProperty("--opacity-low", big ? random(.16,.30) : random(.11,.21));
         s.style.setProperty("--drift1", `${random(-34,34)}px`);
         s.style.setProperty("--drift2", `${random(-72,72)}px`);
         s.style.setProperty("--drift3", `${random(-116,116)}px`);
