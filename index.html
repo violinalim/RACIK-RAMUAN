@@ -240,69 +240,63 @@ button{font:inherit}
   100%{transform:translate(0,0) rotate(0deg)}
 }
 
-.stream{
+
+.pour-svg{
   position:absolute;
-  left:50%;
-  top:50%;
-  width:18px;
-  height:110px;
-  transform:translateX(-50%) rotate(0deg) scaleY(0);
-  transform-origin:top center;
-  opacity:0;
-  z-index:115;
-  pointer-events:none;
-  filter:drop-shadow(0 0 10px var(--glow,#d76cff));
-}
-.stream::before{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:0;
-  transform:translateX(-50%);
+  inset:0;
   width:100%;
   height:100%;
-  background:
-    radial-gradient(ellipse at 50% 6%, rgba(255,255,255,.82) 0%, rgba(255,255,255,.18) 22%, rgba(255,255,255,0) 46%),
-    linear-gradient(90deg, rgba(255,255,255,.18) 0%, rgba(255,255,255,.52) 14%, rgba(255,255,255,.10) 28%, rgba(255,255,255,0) 50%, rgba(255,255,255,.14) 72%, rgba(255,255,255,.48) 88%, rgba(255,255,255,.12) 100%),
-    linear-gradient(180deg, var(--c1,#f6d0ff) 0%, var(--c2,#cf55ff) 42%, var(--c3,#8a1dcc) 100%);
-  border-radius:46% 46% 42% 42% / 5% 5% 100% 100%;
-  clip-path:polygon(36% 0%, 64% 0%, 72% 8%, 74% 26%, 71% 45%, 66% 66%, 59% 85%, 54% 100%, 46% 100%, 41% 85%, 34% 66%, 29% 45%, 26% 26%, 28% 8%);
-  box-shadow:inset 1px 0 2px rgba(255,255,255,.18), inset -1px 0 3px rgba(60,0,98,.24), 0 0 11px var(--glow,#d76cff);
-  animation:streamFlow .62s ease-in-out infinite;
+  overflow:visible;
+  pointer-events:none;
+  z-index:115;
+  opacity:0;
 }
-.stream::after{
-  content:"";
-  position:absolute;
-  left:50%;
-  bottom:-8px;
-  transform:translateX(-50%);
-  width:38px;
-  height:16px;
-  border-radius:50%;
-  background:radial-gradient(ellipse,rgba(255,255,255,.72) 0%,var(--c2,#cf55ff) 30%,rgba(255,255,255,0) 72%);
-  filter:blur(1.6px);
-  opacity:.84;
-  animation:splashPulse .42s ease-in-out infinite alternate;
+.pour-svg.show{
+  opacity:1;
 }
-.stream.show{
-  animation:streamPour .84s ease-in-out both;
+.pour-glow{
+  fill:none;
+  stroke:var(--glow,#d76cff);
+  stroke-width:28;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  opacity:.22;
+  filter:blur(5px);
 }
-@keyframes streamPour{
-  0%{opacity:0;transform:translateX(-50%) rotate(var(--stream-angle,0deg)) scaleY(0)}
-  14%,84%{opacity:.98;transform:translateX(-50%) rotate(var(--stream-angle,0deg)) scaleY(1)}
-  100%{opacity:0;transform:translateX(-50%) rotate(var(--stream-angle,0deg)) scaleY(.12)}
+.pour-main{
+  fill:none;
+  stroke:url(#potionGradient);
+  stroke-width:15;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  filter:drop-shadow(0 0 8px var(--glow,#d76cff));
+  animation:pourPulse .42s ease-in-out infinite alternate;
 }
-@keyframes streamFlow{
-  0%{transform:translateX(-50%) scaleX(.96)}
-  50%{transform:translateX(-50%) scaleX(1.03)}
-  100%{transform:translateX(-50%) scaleX(.96)}
+.pour-highlight{
+  fill:none;
+  stroke:rgba(255,255,255,.72);
+  stroke-width:4;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  opacity:.72;
 }
-@keyframes splashPulse{
-  from{transform:translateX(-50%) scale(.96);opacity:.56}
-  to{transform:translateX(-50%) scale(1.06);opacity:.92}
+.pour-splash{
+  fill:var(--c2,#cf55ff);
+  opacity:.0;
+  transform-box:fill-box;
+  transform-origin:center;
 }
-
-
+.pour-svg.show .pour-splash{
+  animation:splashReal .34s ease-in-out infinite alternate;
+}
+@keyframes pourPulse{
+  from{stroke-width:13.5;opacity:.90}
+  to{stroke-width:16.5;opacity:1}
+}
+@keyframes splashReal{
+  from{opacity:.35;transform:scale(.82)}
+  to{opacity:.88;transform:scale(1.18)}
+}
 
 /* BROOM ANIMATION - BESAR, GAGANG PANJANG, MUNCUL DARI LUAR LAYAR */
 .broom-lane{
@@ -327,8 +321,8 @@ button{font:inherit}
   position:absolute;
   left:-520px;
   bottom:-34px;
-  width:420px;
-  height:420px;
+  width:470px;
+  height:470px;
   will-change:transform;
 }
 
@@ -355,7 +349,7 @@ button{font:inherit}
 
 /* ayunan tidak bergoyang bolak-balik; gagang perlahan mengayun ke kanan */
 .broom-lane.show .broom-img{
-  animation:broomSwingRight 8.6s cubic-bezier(.22,.04,.18,1) 1 both;
+  animation:broomSweepStroke .92s cubic-bezier(.20,.02,.18,1) infinite;
 }
 
 .broom-shadow{
@@ -400,14 +394,13 @@ button{font:inherit}
   100% {transform:translateX(1590px) translateY(2px)}
 }
 
-@keyframes broomSwingRight{
-  0%   {transform:translateX(-50%) rotate(-18deg)}
-  14%  {transform:translateX(-50%) rotate(-15deg)}
-  30%  {transform:translateX(-50%) rotate(-10deg)}
-  48%  {transform:translateX(-50%) rotate(-4deg)}
-  66%  {transform:translateX(-50%) rotate(4deg)}
-  84%  {transform:translateX(-50%) rotate(12deg)}
-  100% {transform:translateX(-50%) rotate(18deg)}
+@keyframes broomSweepStroke{
+  0%   {transform:translateX(-50%) rotate(-20deg)}
+  18%  {transform:translateX(-50%) rotate(-15deg)}
+  42%  {transform:translateX(-50%) rotate(-8deg)}
+  68%  {transform:translateX(-50%) rotate(1deg)}
+  86%  {transform:translateX(-50%) rotate(10deg)}
+  100% {transform:translateX(-50%) rotate(15deg)}
 }
 
 @keyframes broomShadowPass{
@@ -435,13 +428,13 @@ button{font:inherit}
   .stage{transform:translateX(-50%) scale(.88)}
   .bottles{right:-40px}
   .broom-lane{width:1180px;bottom:78px;height:440px}
-  .broom-wrap{width:370px;height:370px;left:-470px}
+  .broom-wrap{width:420px;height:420px;left:-500px}
 }
 @media(max-width:760px){
   .stage{bottom:.5%;width:820px;height:680px;transform:translateX(-50%) scale(.70)}
   .bottles{right:-26px}
   .broom-lane{width:980px;bottom:70px;height:390px}
-  .broom-wrap{width:330px;height:330px;left:-430px}
+  .broom-wrap{width:375px;height:375px;left:-460px}
 }
 @media(max-width:540px){
   .scene{background-position:center center}
@@ -449,14 +442,14 @@ button{font:inherit}
   .cauldron-zone{bottom:38px}
   .bottles{right:-18px}
   .broom-lane{width:820px;bottom:62px;height:340px}
-  .broom-wrap{width:290px;height:290px;left:-390px}
+  .broom-wrap{width:330px;height:330px;left:-420px}
 }
 @media(max-width:420px){
   .stage{bottom:3%;width:670px;height:620px;transform:translateX(-50%) scale(.48)}
   .cauldron-zone{bottom:58px}
   .bottles{right:-12px}
   .broom-lane{width:700px;bottom:58px;height:310px}
-  .broom-wrap{width:260px;height:260px;left:-360px}
+  .broom-wrap{width:295px;height:295px;left:-390px}
 }
 @media(max-height:620px) and (orientation:landscape){
   .stage{bottom:-3%;transform:translateX(-50%) scale(.68)}
@@ -487,7 +480,19 @@ button{font:inherit}
     </div>
 
 
-    <div class="stream" id="stream"></div>
+    <svg class="pour-svg" id="pourSvg" aria-hidden="true">
+      <defs>
+        <linearGradient id="potionGradient" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" style="stop-color:var(--c1,#f6d0ff)"/>
+          <stop offset="45%" style="stop-color:var(--c2,#cf55ff)"/>
+          <stop offset="100%" style="stop-color:var(--c3,#8a1dcc)"/>
+        </linearGradient>
+      </defs>
+      <path class="pour-glow" id="pourGlow"></path>
+      <path class="pour-main" id="pourMain"></path>
+      <path class="pour-highlight" id="pourHighlight"></path>
+      <ellipse class="pour-splash" id="pourSplash" rx="22" ry="7"></ellipse>
+    </svg>
 
     <div class="bottles">
       <button class="bottle purple" type="button" aria-label="Ramuan ungu" data-c1="#f4c5ff" data-c2="#d052ff" data-c3="#8617cc" data-glow="rgba(220,98,255,.78)">
@@ -516,7 +521,11 @@ button{font:inherit}
   const bottles = [...document.querySelectorAll(".bottle")];
   const bubbles = document.getElementById("bubbles");
   const smoke = document.getElementById("smoke");
-  const stream = document.getElementById("stream");
+  const pourSvg = document.getElementById("pourSvg");
+  const pourGlow = document.getElementById("pourGlow");
+  const pourMain = document.getElementById("pourMain");
+  const pourHighlight = document.getElementById("pourHighlight");
+  const pourSplash = document.getElementById("pourSplash");
   const flash = document.getElementById("flash");
   const broomLane = document.querySelector(".broom-lane");
   const stage = document.getElementById("stage");
@@ -605,9 +614,9 @@ button{font:inherit}
   }
 
 
-  function updateStreamGeometry(button){
+  function updatePourGeometry(button){
     const mouth = button.querySelector(".pour-mouth");
-    if(!mouth || !pourTarget || !stage) return;
+    if(!mouth || !pourTarget || !stage || !pourSvg) return;
 
     const stageRect = stage.getBoundingClientRect();
     const mouthRect = mouth.getBoundingClientRect();
@@ -616,33 +625,51 @@ button{font:inherit}
     const scaleX = stageRect.width / stage.offsetWidth || 1;
     const scaleY = stageRect.height / stage.offsetHeight || 1;
 
-    const mouthX = ((mouthRect.left + mouthRect.width / 2) - stageRect.left) / scaleX;
-    const mouthY = ((mouthRect.top + mouthRect.height / 2) - stageRect.top) / scaleY;
-    const targetX = ((targetRect.left + targetRect.width / 2) - stageRect.left) / scaleX;
-    const targetY = ((targetRect.top + targetRect.height / 2) - stageRect.top) / scaleY;
+    const sx = ((mouthRect.left + mouthRect.width / 2) - stageRect.left) / scaleX;
+    const sy = ((mouthRect.top + mouthRect.height / 2) - stageRect.top) / scaleY;
+    const tx = ((targetRect.left + targetRect.width / 2) - stageRect.left) / scaleX;
+    const ty = ((targetRect.top + targetRect.height / 2) - stageRect.top) / scaleY;
 
-    const dx = targetX - mouthX;
-    const dy = targetY - mouthY;
-    const distance = Math.max(28, Math.hypot(dx,dy));
-    const angle = Math.atan2(dy,dx) * 180 / Math.PI - 90;
+    pourSvg.setAttribute("viewBox", `0 0 ${stage.offsetWidth} ${stage.offsetHeight}`);
 
-    stream.style.left = `${mouthX}px`;
-    stream.style.top = `${mouthY}px`;
-    stream.style.height = `${distance}px`;
-    stream.style.setProperty("--stream-angle", `${angle}deg`);
+    const dx = tx - sx;
+    const dy = ty - sy;
+    const distance = Math.hypot(dx,dy);
+
+    /* natural liquid arc: leaves the bottle, then gravity pulls it down */
+    const c1x = sx + dx * .20;
+    const c1y = sy + Math.min(8, distance * .03);
+    const c2x = tx - dx * .08;
+    const c2y = ty - Math.min(42, distance * .18);
+
+    const d = `M ${sx.toFixed(2)} ${sy.toFixed(2)} C ${c1x.toFixed(2)} ${c1y.toFixed(2)}, ${c2x.toFixed(2)} ${c2y.toFixed(2)}, ${tx.toFixed(2)} ${ty.toFixed(2)}`;
+
+    pourGlow.setAttribute("d", d);
+    pourMain.setAttribute("d", d);
+    pourHighlight.setAttribute("d", d);
+    pourSplash.setAttribute("cx", tx.toFixed(2));
+    pourSplash.setAttribute("cy", ty.toFixed(2));
+
+    const gradient = document.getElementById("potionGradient");
+    if(gradient){
+      gradient.setAttribute("x1", sx.toFixed(2));
+      gradient.setAttribute("y1", sy.toFixed(2));
+      gradient.setAttribute("x2", tx.toFixed(2));
+      gradient.setAttribute("y2", ty.toFixed(2));
+    }
   }
 
-  function followPourStream(button){
+  function followPour(button){
     cancelAnimationFrame(streamRAF);
 
     const tick = ()=>{
-      if(!button.classList.contains("active") || !stream.classList.contains("show")){
+      if(!button.classList.contains("active") || !pourSvg.classList.contains("show")){
         cancelAnimationFrame(streamRAF);
         streamRAF = 0;
         return;
       }
 
-      updateStreamGeometry(button);
+      updatePourGeometry(button);
       streamRAF = requestAnimationFrame(tick);
     };
 
@@ -687,15 +714,15 @@ button{font:inherit}
     button.classList.add("active");
 
     setTimeout(()=>{
-      updateStreamGeometry(button);
-      restartAnimation(stream,"show");
-      followPourStream(button);
+      updatePourGeometry(button);
+      pourSvg.classList.add("show");
+      followPour(button);
       restartAnimation(flash,"show");
       burst();
     }, 1260);
 
     setTimeout(()=>{
-      stream.classList.remove("show");
+      pourSvg.classList.remove("show");
       cancelAnimationFrame(streamRAF);
       streamRAF = 0;
     }, 2040);
