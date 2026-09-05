@@ -244,14 +244,14 @@ button{font:inherit}
   position:absolute;
   left:50%;
   top:50%;
-  width:22px;
+  width:18px;
   height:110px;
   transform:translateX(-50%) rotate(0deg) scaleY(0);
   transform-origin:top center;
   opacity:0;
   z-index:115;
   pointer-events:none;
-  filter:drop-shadow(0 0 12px var(--glow,#d76cff));
+  filter:drop-shadow(0 0 10px var(--glow,#d76cff));
 }
 .stream::before{
   content:"";
@@ -262,44 +262,44 @@ button{font:inherit}
   width:100%;
   height:100%;
   background:
-    linear-gradient(180deg,rgba(255,255,255,.82) 0%,rgba(255,255,255,.20) 9%,transparent 20%),
-    radial-gradient(ellipse at 50% 12%,rgba(255,255,255,.40) 0%,rgba(255,255,255,0) 48%),
-    linear-gradient(180deg,var(--c1,#f6d0ff) 0%,var(--c2,#cf55ff) 38%,var(--c3,#8a1dcc) 100%);
-  border-radius:55% 45% 42% 58% / 14% 14% 86% 86%;
-  clip-path:polygon(42% 0%,58% 0%,75% 16%,73% 36%,68% 55%,62% 76%,57% 100%,43% 100%,37% 77%,31% 54%,27% 34%,25% 16%);
-  box-shadow:inset 3px 0 4px rgba(255,255,255,.24),inset -3px 0 5px rgba(72,0,124,.34),0 0 12px var(--glow,#d76cff);
-  animation:streamFlow .25s linear infinite;
+    radial-gradient(ellipse at 50% 6%, rgba(255,255,255,.82) 0%, rgba(255,255,255,.18) 22%, rgba(255,255,255,0) 46%),
+    linear-gradient(90deg, rgba(255,255,255,.18) 0%, rgba(255,255,255,.52) 14%, rgba(255,255,255,.10) 28%, rgba(255,255,255,0) 50%, rgba(255,255,255,.14) 72%, rgba(255,255,255,.48) 88%, rgba(255,255,255,.12) 100%),
+    linear-gradient(180deg, var(--c1,#f6d0ff) 0%, var(--c2,#cf55ff) 42%, var(--c3,#8a1dcc) 100%);
+  border-radius:46% 46% 42% 42% / 5% 5% 100% 100%;
+  clip-path:polygon(36% 0%, 64% 0%, 72% 8%, 74% 26%, 71% 45%, 66% 66%, 59% 85%, 54% 100%, 46% 100%, 41% 85%, 34% 66%, 29% 45%, 26% 26%, 28% 8%);
+  box-shadow:inset 1px 0 2px rgba(255,255,255,.18), inset -1px 0 3px rgba(60,0,98,.24), 0 0 11px var(--glow,#d76cff);
+  animation:streamFlow .62s ease-in-out infinite;
 }
 .stream::after{
   content:"";
   position:absolute;
   left:50%;
-  bottom:-6px;
+  bottom:-8px;
   transform:translateX(-50%);
-  width:46px;
-  height:18px;
+  width:38px;
+  height:16px;
   border-radius:50%;
-  background:radial-gradient(ellipse,rgba(255,255,255,.76) 0%,var(--c2,#cf55ff) 28%,rgba(255,255,255,0) 72%);
-  filter:blur(1.8px);
-  opacity:.92;
-  animation:splashPulse .30s ease-in-out infinite alternate;
+  background:radial-gradient(ellipse,rgba(255,255,255,.72) 0%,var(--c2,#cf55ff) 30%,rgba(255,255,255,0) 72%);
+  filter:blur(1.6px);
+  opacity:.84;
+  animation:splashPulse .42s ease-in-out infinite alternate;
 }
 .stream.show{
-  animation:streamPour .78s ease-in-out both;
+  animation:streamPour .84s ease-in-out both;
 }
 @keyframes streamPour{
   0%{opacity:0;transform:translateX(-50%) rotate(var(--stream-angle,0deg)) scaleY(0)}
-  16%,80%{opacity:.98;transform:translateX(-50%) rotate(var(--stream-angle,0deg)) scaleY(1)}
-  100%{opacity:0;transform:translateX(-50%) rotate(var(--stream-angle,0deg)) scaleY(.18)}
+  14%,84%{opacity:.98;transform:translateX(-50%) rotate(var(--stream-angle,0deg)) scaleY(1)}
+  100%{opacity:0;transform:translateX(-50%) rotate(var(--stream-angle,0deg)) scaleY(.12)}
 }
 @keyframes streamFlow{
-  0%{transform:translateX(-50%) skewX(-2deg) scaleX(.96)}
-  50%{transform:translateX(-50%) skewX(2deg) scaleX(1.06)}
-  100%{transform:translateX(-50%) skewX(-2deg) scaleX(.96)}
+  0%{transform:translateX(-50%) scaleX(.96)}
+  50%{transform:translateX(-50%) scaleX(1.03)}
+  100%{transform:translateX(-50%) scaleX(.96)}
 }
 @keyframes splashPulse{
-  from{transform:translateX(-50%) scale(.92);opacity:.6}
-  to{transform:translateX(-50%) scale(1.1);opacity:1}
+  from{transform:translateX(-50%) scale(.96);opacity:.56}
+  to{transform:translateX(-50%) scale(1.06);opacity:.92}
 }
 
 
@@ -308,15 +308,16 @@ button{font:inherit}
 .broom-lane{
   position:absolute;
   left:50%;
-  bottom:118px;
-  width:760px;
-  height:170px;
+  bottom:112px;
+  width:820px;
+  height:190px;
   transform:translateX(-50%);
   z-index:18;
   pointer-events:none;
-  overflow:visible;
+  overflow:hidden;
   opacity:0;
   visibility:hidden;
+  transition:opacity .2s linear;
 }
 .broom-lane.show{
   opacity:1;
@@ -324,14 +325,14 @@ button{font:inherit}
 }
 .broom-wrap{
   position:absolute;
-  left:-210px;
-  bottom:0;
-  width:285px;
-  height:285px;
+  left:-360px;
+  bottom:-10px;
+  width:340px;
+  height:340px;
   will-change:transform;
 }
 .broom-lane.show .broom-wrap{
-  animation:broomPass 10.8s cubic-bezier(.36,.02,.18,1) 1 both;
+  animation:broomPass 8.8s cubic-bezier(.22,.08,.14,1) 1 both;
 }
 .broom-img{
   position:absolute;
@@ -339,9 +340,9 @@ button{font:inherit}
   height:100%;
   object-fit:contain;
   object-position:center;
-  transform:rotate(-12deg) scaleX(-1);
-  transform-origin:55% 74%;
-  filter:drop-shadow(0 12px 14px rgba(0,0,0,.30));
+  transform:rotate(-18deg) scaleX(-1);
+  transform-origin:58% 76%;
+  filter:drop-shadow(0 14px 16px rgba(0,0,0,.28));
   user-select:none;
   animation:none;
   -webkit-user-drag:none;
@@ -349,67 +350,65 @@ button{font:inherit}
 .broom-shadow{
   position:absolute;
   left:50%;
-  bottom:12px;
-  width:148px;
-  height:30px;
+  bottom:22px;
+  width:170px;
+  height:34px;
   border-radius:50%;
-  background:radial-gradient(ellipse, rgba(0,0,0,.42) 0%, rgba(0,0,0,.18) 48%, transparent 74%);
+  background:radial-gradient(ellipse, rgba(0,0,0,.34) 0%, rgba(0,0,0,.14) 52%, transparent 76%);
   transform:translateX(-50%);
-  filter:blur(5px);
+  filter:blur(6px);
 }
 .broom-lane.show .broom-shadow{
-  animation:broomShadowMove .9s ease-in-out infinite alternate;
+  animation:broomShadowMove 8.8s linear 1 both;
 }
 .dust{
   position:absolute;
-  left:34px;
-  bottom:30px;
-  width:138px;
-  height:70px;
-  background:radial-gradient(ellipse at 50% 60%, rgba(197,156,255,.16) 0%, rgba(175,120,255,.1) 38%, rgba(175,120,255,0) 76%);
-  filter:blur(8px);
-  opacity:.55;
+  left:42px;
+  bottom:36px;
+  width:170px;
+  height:82px;
+  background:radial-gradient(ellipse at 50% 60%, rgba(197,156,255,.12) 0%, rgba(175,120,255,.08) 36%, rgba(175,120,255,0) 78%);
+  filter:blur(10px);
+  opacity:0;
   animation:none;
 }
 .broom-lane.show .dust{
-  animation:dustWave .9s ease-in-out infinite alternate;
+  animation:dustWave 8.8s linear 1 both;
 }
 .broom-lane.show .broom-img{
-  animation:broomSweep .9s ease-in-out infinite alternate;
+  animation:broomSweep 8.8s cubic-bezier(.24,.04,.22,1) 1 both;
 }
 @keyframes broomPass{
-  0%{transform:translateX(-18px) translateY(8px)}
-  8%{transform:translateX(36px) translateY(2px)}
-  18%{transform:translateX(128px) translateY(-4px)}
-  30%{transform:translateX(245px) translateY(3px)}
-  42%{transform:translateX(372px) translateY(-2px)}
-  56%{transform:translateX(520px) translateY(5px)}
-  70%{transform:translateX(684px) translateY(-1px)}
-  84%{transform:translateX(846px) translateY(4px)}
-  94%{transform:translateX(956px) translateY(-2px)}
-  100%{transform:translateX(1032px) translateY(1px)}
+  0%{transform:translateX(0) translateY(2px)}
+  10%{transform:translateX(90px) translateY(2px)}
+  24%{transform:translateX(218px) translateY(0)}
+  40%{transform:translateX(378px) translateY(-1px)}
+  58%{transform:translateX(554px) translateY(0)}
+  76%{transform:translateX(716px) translateY(1px)}
+  92%{transform:translateX(930px) translateY(1px)}
+  100%{transform:translateX(1185px) translateY(2px)}
 }
 @keyframes broomSweep{
-  0%{transform:rotate(-18deg) scaleX(-1) translateY(1px)}
-  18%{transform:rotate(-10deg) scaleX(-1) translateY(-1px)}
-  36%{transform:rotate(-14deg) scaleX(-1) translateY(3px)}
-  54%{transform:rotate(-7deg) scaleX(-1) translateY(0)}
-  72%{transform:rotate(-12deg) scaleX(-1) translateY(4px)}
-  100%{transform:rotate(-6deg) scaleX(-1) translateY(2px)}
+  0%{transform:rotate(-19deg) scaleX(-1)}
+  18%{transform:rotate(-17deg) scaleX(-1)}
+  36%{transform:rotate(-13deg) scaleX(-1)}
+  58%{transform:rotate(-9deg) scaleX(-1)}
+  78%{transform:rotate(-6deg) scaleX(-1)}
+  100%{transform:rotate(-4deg) scaleX(-1)}
 }
 @keyframes broomShadowMove{
-  0%{transform:translateX(-50%) scale(.94);opacity:.28}
-  20%{transform:translateX(-50%) scale(1.02);opacity:.38}
-  50%{transform:translateX(-50%) scale(1.12);opacity:.24}
-  75%{transform:translateX(-50%) scale(1.04);opacity:.34}
-  100%{transform:translateX(-50%) scale(1.16);opacity:.22}
+  0%{transform:translateX(-50%) scale(.92);opacity:0}
+  14%{transform:translateX(-50%) scale(.98);opacity:.22}
+  45%{transform:translateX(-50%) scale(1.06);opacity:.28}
+  78%{transform:translateX(-50%) scale(1.02);opacity:.24}
+  100%{transform:translateX(-50%) scale(.95);opacity:0}
 }
 @keyframes dustWave{
-  0%{transform:translateX(0) scaleX(.92) scaleY(.92);opacity:.24}
-  20%{transform:translateX(8px) scaleX(1.02) scaleY(1);opacity:.44}
-  45%{transform:translateX(16px) scaleX(1.16) scaleY(1.06);opacity:.62}
-  70%{transform:translateX(24px) scaleX(1.24) scaleY(1.1);opacity:.42}
-  100%{transform:translateX(34px) scaleX(1.34) scaleY(1.14);opacity:0}
+  0%{transform:translateX(0) scaleX(.86) scaleY(.88);opacity:0}
+  14%{transform:translateX(8px) scaleX(.96) scaleY(.94);opacity:.24}
+  38%{transform:translateX(20px) scaleX(1.08) scaleY(1);opacity:.36}
+  62%{transform:translateX(36px) scaleX(1.22) scaleY(1.05);opacity:.26}
+  100%{transform:translateX(62px) scaleX(1.36) scaleY(1.1);opacity:0}
 }
 @media (min-width: 1200px){
   .stage{width:920px;height:720px}
@@ -417,29 +416,29 @@ button{font:inherit}
 @media(max-width:980px){
   .stage{transform:translateX(-50%) scale(.88)}
   .bottles{right:-40px}
-  .broom-lane{width:700px;bottom:112px}
-  .broom-wrap{width:264px;height:264px}
+  .broom-lane{width:720px;bottom:108px;height:178px}
+  .broom-wrap{width:305px;height:305px}
 }
 @media(max-width:760px){
   .stage{bottom:.5%;width:820px;height:680px;transform:translateX(-50%) scale(.70)}
   .bottles{right:-26px}
-  .broom-lane{width:660px;bottom:108px;height:150px}
-  .broom-wrap{width:240px;height:240px}
+  .broom-lane{width:650px;bottom:102px;height:160px}
+  .broom-wrap{width:268px;height:268px;left:-300px}
 }
 @media(max-width:540px){
   .scene{background-position:center center}
   .stage{bottom:1.5%;width:720px;height:650px;transform:translateX(-50%) scale(.54)}
   .cauldron-zone{bottom:38px}
   .bottles{right:-18px}
-  .broom-lane{width:610px;bottom:94px;height:142px}
-  .broom-wrap{width:216px;height:216px}
+  .broom-lane{width:590px;bottom:92px;height:148px}
+  .broom-wrap{width:238px;height:238px;left:-270px}
 }
 @media(max-width:420px){
   .stage{bottom:3%;width:670px;height:620px;transform:translateX(-50%) scale(.48)}
   .cauldron-zone{bottom:58px}
   .bottles{right:-12px}
-  .broom-lane{width:560px;bottom:88px;height:132px}
-  .broom-wrap{width:198px;height:198px}
+  .broom-lane{width:520px;bottom:84px;height:136px}
+  .broom-wrap{width:216px;height:216px;left:-245px}
 }
 @media(max-height:620px) and (orientation:landscape){
   .stage{bottom:-3%;transform:translateX(-50%) scale(.68)}
@@ -511,7 +510,7 @@ button{font:inherit}
   let streamRAF = 0;
   let broomTimer = 0;
   let broomHideTimer = 0;
-  const broomDuration = 11000;
+  const broomDuration = 9000;
 
   const random = (min,max) => Math.random() * (max-min) + min;
 
