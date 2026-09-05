@@ -642,7 +642,7 @@ button{font:inherit}
   function scheduleNextBroom(){
     clearTimeout(broomTimer);
     if(document.hidden) return;
-    const delay = Math.floor(random(15000, 45001));
+    const delay = Math.floor(random(3000, 10001));
     broomTimer = setTimeout(showBroomOnce, delay);
   }
 
