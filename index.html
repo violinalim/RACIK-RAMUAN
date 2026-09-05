@@ -257,45 +257,36 @@ button{font:inherit}
 .pour-glow{
   fill:none;
   stroke:var(--glow,#d76cff);
-  stroke-width:24;
+  stroke-width:18;
   stroke-linecap:round;
   stroke-linejoin:round;
-  opacity:.18;
-  filter:blur(6px);
+  opacity:.10;
+  filter:blur(4px);
 }
 .pour-main{
   fill:none;
   stroke:url(#potionGradient);
-  stroke-width:13;
+  stroke-width:11;
   stroke-linecap:round;
   stroke-linejoin:round;
-  filter:drop-shadow(0 0 9px var(--glow,#d76cff));
-  animation:pourPulse .55s ease-in-out infinite alternate;
+  filter:drop-shadow(0 0 6px var(--glow,#d76cff));
+  opacity:.96;
 }
 .pour-highlight{
-  fill:none;
-  stroke:rgba(255,255,255,.74);
-  stroke-width:3;
-  stroke-linecap:round;
-  stroke-linejoin:round;
-  opacity:.64;
+  display:none;
 }
 .pour-splash{
   fill:var(--c2,#cf55ff);
-  opacity:.0;
+  opacity:0;
   transform-box:fill-box;
   transform-origin:center;
 }
 .pour-svg.show .pour-splash{
-  animation:splashReal .42s ease-in-out infinite alternate;
-}
-@keyframes pourPulse{
-  from{stroke-width:11.8;opacity:.86}
-  to{stroke-width:14.2;opacity:1}
+  animation:splashReal .36s ease-in-out infinite alternate;
 }
 @keyframes splashReal{
-  from{opacity:.28;transform:scale(.78,.72)}
-  to{opacity:.86;transform:scale(1.16,.98)}
+  from{opacity:.18;transform:scale(.72,.62)}
+  to{opacity:.56;transform:scale(1.02,.82)}
 }
 
 
@@ -492,20 +483,16 @@ button{font:inherit}
 
     const dx = tx - sx;
     const dy = ty - sy;
-    const distance = Math.hypot(dx,dy);
-    const t = (performance.now() - pourStartTime) / 1000;
-    const sway = Math.sin(t * 9.5) * Math.min(7, Math.abs(dx) * 0.035);
-    const settle = Math.sin(t * 5.2 + .8) * 3;
 
-    /* more natural liquid: narrow at source, soft arc, straighter vertical fall near the cauldron */
-    const c1x = sx + dx * .16 + sway * .35;
-    const c1y = sy + 12 + Math.max(2, Math.abs(dx) * .02) + settle * .2;
+    /* dibuat seperti air jatuh biasa: keluar sedikit dari botol lalu turun alami */
+    const c1x = sx + Math.sign(dx || 1) * Math.min(18, Math.max(10, Math.abs(dx) * .14));
+    const c1y = sy + Math.min(16, Math.max(10, Math.abs(dx) * .06));
 
-    const c2x = sx + dx * .62 + sway;
-    const c2y = sy + dy * .30 + Math.max(38, distance * .16) + settle;
+    const c2x = sx + dx * .48;
+    const c2y = sy + dy * .34 + Math.min(40, Math.max(26, dy * .10));
 
-    const c3x = tx + sway * .15;
-    const c3y = ty - Math.min(52, Math.max(30, distance * .18));
+    const c3x = tx;
+    const c3y = ty - Math.min(54, Math.max(34, dy * .22));
 
     const d = `M ${sx.toFixed(2)} ${sy.toFixed(2)} C ${c1x.toFixed(2)} ${c1y.toFixed(2)}, ${c2x.toFixed(2)} ${c2y.toFixed(2)}, ${c3x.toFixed(2)} ${c3y.toFixed(2)} S ${tx.toFixed(2)} ${ty.toFixed(2)}, ${tx.toFixed(2)} ${ty.toFixed(2)}`;
 
@@ -519,7 +506,7 @@ button{font:inherit}
     if(gradient){
       gradient.setAttribute("x1", sx.toFixed(2));
       gradient.setAttribute("y1", sy.toFixed(2));
-      gradient.setAttribute("x2", tx.toFixed(2));
+      gradient.setAttribute("x2", sx.toFixed(2));
       gradient.setAttribute("y2", ty.toFixed(2));
     }
   }
