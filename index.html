@@ -500,7 +500,11 @@ button{font:inherit}
 }
 .hud-id{font-size:12px;color:#cfbdd9}.hud-id b{color:#fff}
 .hud-chance{font-size:12px}.hud-chance b{font-size:16px;color:#e9bcff}
-.hud-actions{display:flex;gap:7px}
+.hud-actions{display:flex;gap:7px;align-items:center}
+.hud-sync{
+  color:#8ff0b1;font-size:10px;font-weight:900;letter-spacing:.5px;
+  text-shadow:0 0 10px rgba(89,231,139,.28)
+}
 .hud-btn{
   pointer-events:auto;border:1px solid rgba(224,180,255,.18);background:rgba(25,11,34,.78);
   color:#fff;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:800;cursor:pointer
@@ -575,6 +579,7 @@ button{font:inherit}
       <div class="hud-chance">Kesempatan <b id="hudChances">0</b></div>
     </div>
     <div class="hud-actions">
+      <span class="hud-sync">● TERHUBUNG</span>
       <button class="hud-btn" id="backMenuBtn" type="button">MENU</button>
       <button class="hud-btn" id="gameLogoutBtn" type="button">LOGOUT</button>
     </div>
@@ -670,6 +675,51 @@ button{font:inherit}
   const STORAGE_KEY = "magicCauldronDB_v1";
   const SESSION_KEY = "magicCauldronMemberSession_v1";
 
+  const SYNC_CHANNEL_NAME = "magicCauldronSync_v1";
+  const syncChannel = ("BroadcastChannel" in window) ? new BroadcastChannel(SYNC_CHANNEL_NAME) : null;
+  let lastDbSnapshot = localStorage.getItem(STORAGE_KEY) || "";
+
+  function announceDbUpdate(db, source="unknown"){
+    try{
+      lastDbSnapshot = JSON.stringify(db);
+      if(syncChannel){
+        syncChannel.postMessage({
+          type:"db-updated",
+          source,
+          revision:Number(db.revision || 0),
+          updatedAt:db.updatedAt || new Date().toISOString()
+        });
+      }
+    }catch(e){}
+  }
+
+  function watchDbChanges(onChange){
+    window.addEventListener("storage",(e)=>{
+      if(e.key === STORAGE_KEY){
+        lastDbSnapshot = e.newValue || "";
+        onChange("storage");
+      }
+    });
+
+    if(syncChannel){
+      syncChannel.addEventListener("message",(e)=>{
+        if(e.data && e.data.type === "db-updated"){
+          onChange("broadcast");
+        }
+      });
+    }
+
+    /* Fallback polling: memastikan perubahan tetap terbaca
+       walau browser tidak memicu storage/BroadcastChannel dengan sempurna. */
+    setInterval(()=>{
+      const current = localStorage.getItem(STORAGE_KEY) || "";
+      if(current !== lastDbSnapshot){
+        lastDbSnapshot = current;
+        onChange("poll");
+      }
+    }, 900);
+  }
+
   const authLayer = document.getElementById("authLayer");
   const homeLayer = document.getElementById("homeLayer");
   const memberLoginForm = document.getElementById("memberLoginForm");
@@ -703,6 +753,8 @@ button{font:inherit}
   function defaultDB(){
     return {
       version:1,
+      revision:1,
+      updatedAt:new Date().toISOString(),
       admin:{id:"admin",password:"CERIA123"},
       members:[
         {id:"DEMO",password:"123456",chances:3,active:true,nextPrizeId:""}
@@ -736,8 +788,11 @@ button{font:inherit}
     }
   }
 
-  function saveDB(db){
+  function saveDB(db, source="game"){
+    db.revision = Number(db.revision || 0) + 1;
+    db.updatedAt = new Date().toISOString();
     localStorage.setItem(STORAGE_KEY,JSON.stringify(db));
+    announceDbUpdate(db, source);
   }
 
   function getMember(db,id=currentMemberId){
@@ -865,7 +920,7 @@ button{font:inherit}
     });
     if(db.history.length > 1000) db.history.length = 1000;
 
-    saveDB(db);
+    saveDB(db,"game-play");
     refreshMemberUI();
 
     return {
@@ -964,8 +1019,24 @@ button{font:inherit}
     showGame();
   });
 
-  window.addEventListener("storage",(e)=>{
-    if(e.key === STORAGE_KEY && currentMemberId) refreshMemberUI();
+  watchDbChanges(()=>{
+    if(!currentMemberId) return;
+
+    const db = loadDB();
+    const member = getMember(db);
+
+    if(!member || !member.active){
+      logoutMember();
+      return;
+    }
+
+    refreshMemberUI();
+
+    /* Jika admin menghabiskan kesempatan saat member masih di layar game,
+       permainan dihentikan sebelum klik botol berikutnya. */
+    if(Number(member.chances || 0) <= 0 && !busy && resultLayer.style.display !== "flex"){
+      showHome();
+    }
   });
 
 
