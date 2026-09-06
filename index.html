@@ -257,23 +257,29 @@ button{font:inherit}
 .pour-glow{
   fill:none;
   stroke:var(--glow,#d76cff);
-  stroke-width:18;
+  stroke-width:14;
   stroke-linecap:round;
   stroke-linejoin:round;
-  opacity:.10;
-  filter:blur(4px);
+  opacity:.11;
+  filter:blur(3.2px);
 }
 .pour-main{
   fill:none;
   stroke:url(#potionGradient);
-  stroke-width:11;
+  stroke-width:8.5;
   stroke-linecap:round;
   stroke-linejoin:round;
-  filter:drop-shadow(0 0 6px var(--glow,#d76cff));
-  opacity:.96;
+  filter:drop-shadow(0 0 4px var(--glow,#d76cff));
+  opacity:.94;
 }
 .pour-highlight{
-  display:none;
+  display:block;
+  fill:none;
+  stroke:rgba(255,255,255,.38);
+  stroke-width:2.1;
+  stroke-linecap:round;
+  opacity:.58;
+  pointer-events:none;
 }
 .pour-splash{
   fill:var(--c2,#cf55ff);
@@ -281,14 +287,27 @@ button{font:inherit}
   transform-box:fill-box;
   transform-origin:center;
 }
+.pour-svg.show .pour-main{
+  animation:streamNatural .24s ease-in-out infinite alternate;
+}
+.pour-svg.show .pour-highlight{
+  animation:streamHighlight .30s ease-in-out infinite alternate;
+}
 .pour-svg.show .pour-splash{
-  animation:splashReal .36s ease-in-out infinite alternate;
+  animation:splashReal .30s ease-in-out infinite alternate;
+}
+@keyframes streamNatural{
+  from{stroke-width:8.1;opacity:.90}
+  to{stroke-width:9.0;opacity:.98}
+}
+@keyframes streamHighlight{
+  from{opacity:.34}
+  to{opacity:.64}
 }
 @keyframes splashReal{
-  from{opacity:.18;transform:scale(.72,.62)}
-  to{opacity:.56;transform:scale(1.02,.82)}
+  from{opacity:.16;transform:scale(.76,.56)}
+  to{opacity:.46;transform:scale(1.00,.72)}
 }
-
 
 @media (min-width: 1200px){
   .stage{width:920px;height:720px}
@@ -483,22 +502,32 @@ button{font:inherit}
 
     const dx = tx - sx;
     const dy = ty - sy;
+    const dir = Math.sign(dx || 1);
 
-    /* dibuat seperti air jatuh biasa: keluar sedikit dari botol lalu turun alami */
-    const c1x = sx + Math.sign(dx || 1) * Math.min(18, Math.max(10, Math.abs(dx) * .14));
-    const c1y = sy + Math.min(16, Math.max(10, Math.abs(dx) * .06));
+    /*
+      Aliran dibuat lebih natural:
+      1. keluar sedikit dari mulut botol,
+      2. lalu jatuh karena gravitasi,
+      3. hanya 1 cubic Bézier supaya tidak melengkung seperti huruf S.
+    */
+    const horizontalLead = Math.min(18, Math.max(8, Math.abs(dx) * 0.075));
+    const fallLead = Math.min(8, Math.max(3, Math.abs(dy) * 0.025));
 
-    const c2x = sx + dx * .48;
-    const c2y = sy + dy * .34 + Math.min(40, Math.max(26, dy * .10));
+    const c1x = sx + dir * horizontalLead;
+    const c1y = sy + fallLead;
 
-    const c3x = tx;
-    const c3y = ty - Math.min(54, Math.max(34, dy * .22));
+    const targetApproach = Math.min(18, Math.max(8, Math.abs(dx) * 0.06));
+    const gravityHeight = Math.min(58, Math.max(32, Math.abs(dy) * 0.22));
 
-    const d = `M ${sx.toFixed(2)} ${sy.toFixed(2)} C ${c1x.toFixed(2)} ${c1y.toFixed(2)}, ${c2x.toFixed(2)} ${c2y.toFixed(2)}, ${c3x.toFixed(2)} ${c3y.toFixed(2)} S ${tx.toFixed(2)} ${ty.toFixed(2)}, ${tx.toFixed(2)} ${ty.toFixed(2)}`;
+    const c2x = tx - dir * targetApproach;
+    const c2y = ty - gravityHeight;
+
+    const d = `M ${sx.toFixed(2)} ${sy.toFixed(2)} C ${c1x.toFixed(2)} ${c1y.toFixed(2)}, ${c2x.toFixed(2)} ${c2y.toFixed(2)}, ${tx.toFixed(2)} ${ty.toFixed(2)}`;
 
     pourGlow.setAttribute("d", d);
     pourMain.setAttribute("d", d);
     pourHighlight.setAttribute("d", d);
+
     pourSplash.setAttribute("cx", tx.toFixed(2));
     pourSplash.setAttribute("cy", ty.toFixed(2));
 
@@ -506,7 +535,7 @@ button{font:inherit}
     if(gradient){
       gradient.setAttribute("x1", sx.toFixed(2));
       gradient.setAttribute("y1", sy.toFixed(2));
-      gradient.setAttribute("x2", sx.toFixed(2));
+      gradient.setAttribute("x2", tx.toFixed(2));
       gradient.setAttribute("y2", ty.toFixed(2));
     }
   }
@@ -542,13 +571,13 @@ button{font:inherit}
       followPour(button);
       restartAnimation(flash,"show");
       burst();
-    }, 1240);
+    }, 1340);
 
     setTimeout(()=>{
       pourSvg.classList.remove("show");
       cancelAnimationFrame(streamRAF);
       streamRAF = 0;
-    }, 2040);
+    }, 1980);
 
     setTimeout(()=>{
       button.classList.remove("active");
