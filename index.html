@@ -356,7 +356,92 @@ button{font:inherit}
     linear-gradient(rgba(5,2,10,.66),rgba(5,2,10,.86)),
     url("https://plcl.me/images/ohwiK.png") center/cover no-repeat;
 }
-.result-layer{display:none;background:rgba(6,2,10,.72);backdrop-filter:blur(8px)}
+.result-layer{
+  display:none;
+  background:
+    radial-gradient(circle at 50% 38%,rgba(162,73,236,.13),transparent 28%),
+    rgba(6,2,10,.72);
+  backdrop-filter:blur(8px)
+}
+.result-card{text-align:center;width:min(500px,94vw)}
+.reward-reveal{
+  position:relative;
+  height:230px;
+  margin:2px 0 16px;
+  border-radius:22px;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 82%,rgba(204,87,255,.16),transparent 26%),
+    linear-gradient(180deg,rgba(44,18,58,.24),rgba(12,5,19,.08));
+  border:1px solid rgba(219,166,255,.12);
+}
+.reveal-glow{
+  position:absolute;left:50%;bottom:10px;width:180px;height:56px;transform:translateX(-50%);
+  border-radius:50%;
+  background:radial-gradient(ellipse,rgba(214,102,255,.46) 0%,rgba(170,59,218,.24) 44%,transparent 76%);
+  filter:blur(12px);opacity:.78;z-index:1;
+}
+.reveal-smoke{
+  position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:2;
+}
+.reveal-puff{
+  position:absolute;
+  left:50%;
+  bottom:18px;
+  width:var(--size);
+  height:calc(var(--size) * .78);
+  border-radius:50%;
+  background:
+    radial-gradient(ellipse at 50% 55%,rgba(247,220,255,.68) 0%,rgba(214,131,255,.48) 18%,rgba(155,62,217,.24) 48%,rgba(105,34,150,.10) 70%,transparent 100%);
+  filter:blur(var(--blur));
+  opacity:0;
+  transform:translate(-50%,0) scale(.3);
+}
+.result-layer.show .reveal-puff{
+  animation:rewardSmoke var(--dur) cubic-bezier(.18,.42,.22,1) forwards;
+}
+@keyframes rewardSmoke{
+  0%{opacity:0;transform:translate(calc(-50% + var(--drift1)),12px) scale(.28)}
+  14%{opacity:var(--o)}
+  46%{opacity:var(--o2);transform:translate(calc(-50% + var(--drift2)),-44px) scale(1.02)}
+  74%{opacity:var(--o3);transform:translate(calc(-50% + var(--drift3)),-98px) scale(1.42)}
+  100%{opacity:0;transform:translate(calc(-50% + var(--drift4)),var(--rise)) scale(var(--scale))}
+}
+.prize-emerge{
+  position:absolute;left:50%;bottom:20px;transform:translate(-50%,28px) scale(.74);
+  opacity:0;filter:blur(10px);z-index:3;text-align:center;min-width:min(320px,80vw)
+}
+.result-layer.show .prize-emerge{
+  animation:prizeEmerge .92s cubic-bezier(.18,.7,.18,1) .54s forwards;
+}
+@keyframes prizeEmerge{
+  0%{opacity:0;transform:translate(-50%,30px) scale(.72);filter:blur(10px)}
+  45%{opacity:.76;transform:translate(-50%,10px) scale(.92);filter:blur(5px)}
+  100%{opacity:1;transform:translate(-50%,0) scale(1);filter:blur(0)}
+}
+.prize-badge{
+  width:96px;height:96px;margin:0 auto 12px;border-radius:28px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:48px;color:#fff;
+  background:
+    radial-gradient(circle at 35% 25%,rgba(255,255,255,.40),rgba(255,255,255,0) 34%),
+    linear-gradient(180deg,#ca67ff,#7d2bc0 62%,#451369 100%);
+  box-shadow:0 0 34px rgba(200,102,255,.34),inset 0 0 18px rgba(255,255,255,.20);
+  border:1px solid rgba(255,255,255,.20);
+}
+.prize-reveal-name{
+  font-size:26px;font-weight:900;letter-spacing:.4px;color:#f5dcff;
+  text-shadow:0 0 18px rgba(201,114,255,.34)
+}
+.prize-reveal-value{
+  margin-top:8px;font-size:14px;color:#e7d6ef
+}
+.result-icon{display:none}
+.result-kicker{margin-top:0;font-size:11px;text-transform:uppercase;letter-spacing:1.4px;color:#bfaacc}
+.result-name{font-size:24px;font-weight:900;margin-top:4px;color:#f0d6ff}
+.result-value{font-size:14px;margin-top:8px;color:#fff}
+.result-remaining{margin-top:15px;font-size:12px;color:#baa7c5}
+.result-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:20px}
 .ui-card{
   width:min(440px,94vw);
   border:1px solid rgba(213,151,255,.25);
@@ -420,7 +505,6 @@ button{font:inherit}
   pointer-events:auto;border:1px solid rgba(224,180,255,.18);background:rgba(25,11,34,.78);
   color:#fff;border-radius:10px;padding:8px 10px;font-size:11px;font-weight:800;cursor:pointer
 }
-.result-card{text-align:center}
 .result-icon{font-size:52px;filter:drop-shadow(0 0 16px rgba(205,88,255,.38))}
 .result-kicker{margin-top:8px;font-size:11px;text-transform:uppercase;letter-spacing:1.4px;color:#bfaacc}
 .result-name{font-size:28px;font-weight:900;margin-top:9px;color:#f0d6ff}
@@ -545,6 +629,15 @@ button{font:inherit}
 
 <div class="result-layer" id="resultLayer">
   <div class="ui-card result-card">
+    <div class="reward-reveal" id="rewardReveal">
+      <div class="reveal-glow"></div>
+      <div class="reveal-smoke" id="revealSmoke"></div>
+      <div class="prize-emerge" id="prizeEmerge">
+        <div class="prize-badge" id="prizeBadgeIcon">✨</div>
+        <div class="prize-reveal-name" id="prizeRevealName">-</div>
+        <div class="prize-reveal-value" id="prizeRevealValue"></div>
+      </div>
+    </div>
     <div class="result-icon">✨</div>
     <div class="result-kicker">HASIL RAMUAN</div>
     <div class="result-name" id="resultName">-</div>
@@ -593,6 +686,12 @@ button{font:inherit}
   const hudMemberId = document.getElementById("hudMemberId");
   const hudChances = document.getElementById("hudChances");
   const resultLayer = document.getElementById("resultLayer");
+  const rewardReveal = document.getElementById("rewardReveal");
+  const revealSmoke = document.getElementById("revealSmoke");
+  const prizeEmerge = document.getElementById("prizeEmerge");
+  const prizeBadgeIcon = document.getElementById("prizeBadgeIcon");
+  const prizeRevealName = document.getElementById("prizeRevealName");
+  const prizeRevealValue = document.getElementById("prizeRevealValue");
   const resultName = document.getElementById("resultName");
   const resultValue = document.getElementById("resultValue");
   const resultRemaining = document.getElementById("resultRemaining");
@@ -666,7 +765,7 @@ button{font:inherit}
     scene.style.display = "none";
     gameHud.style.display = "none";
     homeLayer.style.display = "none";
-    resultLayer.style.display = "none";
+    clearResultState();
     authLayer.style.display = "flex";
   }
 
@@ -675,7 +774,7 @@ button{font:inherit}
     if(!member) return;
     scene.style.display = "none";
     gameHud.style.display = "none";
-    resultLayer.style.display = "none";
+    clearResultState();
     authLayer.style.display = "none";
     homeLayer.style.display = "flex";
   }
@@ -689,7 +788,7 @@ button{font:inherit}
     }
     authLayer.style.display = "none";
     homeLayer.style.display = "none";
-    resultLayer.style.display = "none";
+    clearResultState();
     scene.style.display = "block";
     gameHud.style.display = "flex";
     setTimeout(updateStageScale,20);
@@ -776,12 +875,60 @@ button{font:inherit}
     };
   }
 
+  function getPrizeIcon(play){
+    const text = `${play.prizeName || ""} ${play.prizeValue || ""}`.toLowerCase();
+    if(text.includes("jackpot")) return "👑";
+    if(text.includes("100") || text.includes("50")) return "💎";
+    if(text.includes("bonus")) return "🎁";
+    if(text.includes("spin")) return "🎰";
+    return "✨";
+  }
+
+  function clearResultState(){
+    resultLayer.classList.remove("show");
+    resultLayer.style.display = "none";
+    if(revealSmoke) revealSmoke.innerHTML = "";
+  }
+
+  function spawnRevealSmoke(){
+    if(!revealSmoke) return;
+    revealSmoke.innerHTML = "";
+    const count = 18;
+    for(let i=0;i<count;i++){
+      const puff = document.createElement("span");
+      puff.className = "reveal-puff";
+      puff.style.setProperty("--size", `${60 + Math.random() * 82}px`);
+      puff.style.setProperty("--blur", `${10 + Math.random() * 10}px`);
+      puff.style.setProperty("--dur", `${1.15 + Math.random() * .55}s`);
+      puff.style.setProperty("--o", `${.42 + Math.random() * .28}`);
+      puff.style.setProperty("--o2", `${.26 + Math.random() * .18}`);
+      puff.style.setProperty("--o3", `${.12 + Math.random() * .12}`);
+      puff.style.setProperty("--drift1", `${-26 + Math.random() * 52}px`);
+      puff.style.setProperty("--drift2", `${-58 + Math.random() * 116}px`);
+      puff.style.setProperty("--drift3", `${-86 + Math.random() * 172}px`);
+      puff.style.setProperty("--drift4", `${-120 + Math.random() * 240}px`);
+      puff.style.setProperty("--rise", `${-118 - Math.random() * 54}px`);
+      puff.style.setProperty("--scale", `${1.34 + Math.random() * .82}`);
+      puff.style.animationDelay = `${Math.random() * .22}s`;
+      revealSmoke.appendChild(puff);
+    }
+  }
+
   function showResult(play){
+    const icon = getPrizeIcon(play);
+    prizeBadgeIcon.textContent = icon;
+    prizeRevealName.textContent = play.prizeName || "-";
+    prizeRevealValue.textContent = play.prizeValue || "";
     resultName.textContent = play.prizeName || "-";
     resultValue.textContent = play.prizeValue || "";
     resultRemaining.textContent = play.remaining;
     playAgainBtn.style.display = Number(play.remaining) > 0 ? "block" : "none";
+
+    clearResultState();
+    spawnRevealSmoke();
     resultLayer.style.display = "flex";
+    void resultLayer.offsetWidth;
+    requestAnimationFrame(()=> resultLayer.classList.add("show"));
   }
 
   memberLoginForm.addEventListener("submit",(e)=>{
@@ -813,7 +960,7 @@ button{font:inherit}
   backMenuBtn.addEventListener("click",()=>{ if(!busy) showHome(); });
   resultMenuBtn.addEventListener("click",showHome);
   playAgainBtn.addEventListener("click",()=>{
-    resultLayer.style.display = "none";
+    clearResultState();
     showGame();
   });
 
