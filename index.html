@@ -529,7 +529,7 @@ button{font:inherit}
   <div class="ui-card">
     <div class="ui-logo">🔮</div>
     <div class="ui-title">MAGIC CAULDRON</div>
-    <div class="ui-sub">Masuk menggunakan ID dan password yang diberikan admin. Data tersimpan online.</div>
+    <div class="ui-sub">Masuk menggunakan ID dan password yang diberikan admin. Data tersimpan online di Google Sheet.</div>
     <form class="ui-form" id="memberLoginForm" autocomplete="off">
       <div class="ui-field">
         <label>USER ID</label>
@@ -560,6 +560,7 @@ button{font:inherit}
         <div class="stat-value" id="homeChances">0</div>
       </div>
     </div>
+    <div style="text-align:center;color:#8fe9ad;font-size:11px;font-weight:800;margin:-5px 0 14px">● ONLINE • GOOGLE SHEETS</div>
     <div class="home-actions">
       <button class="ui-btn" id="startGameBtn" type="button">MULAI BERMAIN</button>
       <button class="ui-btn secondary" id="homeLogoutBtn" type="button">LOGOUT</button>
@@ -668,13 +669,11 @@ button{font:inherit}
   const pourTarget = document.getElementById("pourTarget");
 
   /* =========================================================
-     ONLINE DATABASE - SUPABASE
-     ISI 2 NILAI DI BAWAH dari Supabase:
-     Project Settings > API
+     ONLINE DATABASE - GOOGLE SHEETS + APPS SCRIPT
+     Paste URL Web App /exec di bawah.
      ========================================================= */
-  const SUPABASE_URL = "PASTE_SUPABASE_PROJECT_URL_HERE";
-  const SUPABASE_ANON_KEY = "PASTE_SUPABASE_ANON_KEY_HERE";
-  const SESSION_KEY = "magicCauldronMemberToken_online_v1";
+  const API_URL = "https://script.google.com/macros/s/AKfycbwq0NdGQSlHjAl1t5RkhVk_WmHwHXmZcV_715vZodBaHf6eTQ8EqkeTvQecYZmdYpb32Q/exec";
+  const SESSION_KEY = "magicCauldronMemberToken_sheet_v1";
 
   const authLayer = document.getElementById("authLayer");
   const homeLayer = document.getElementById("homeLayer");
@@ -692,9 +691,7 @@ button{font:inherit}
   const hudMemberId = document.getElementById("hudMemberId");
   const hudChances = document.getElementById("hudChances");
   const resultLayer = document.getElementById("resultLayer");
-  const rewardReveal = document.getElementById("rewardReveal");
   const revealSmoke = document.getElementById("revealSmoke");
-  const prizeEmerge = document.getElementById("prizeEmerge");
   const prizeBadgeIcon = document.getElementById("prizeBadgeIcon");
   const prizeRevealName = document.getElementById("prizeRevealName");
   const prizeRevealValue = document.getElementById("prizeRevealValue");
@@ -706,77 +703,75 @@ button{font:inherit}
 
   let memberToken = sessionStorage.getItem(SESSION_KEY) || "";
   let currentMember = null;
-  let memberPollTimer = 0;
 
-  function configReady(){
-    return /^https:\/\/.+\.supabase\.co\/?$/.test(SUPABASE_URL)
-      && !SUPABASE_ANON_KEY.includes("PASTE_")
-      && SUPABASE_ANON_KEY.length > 20;
+  function apiConfigured(){
+    return /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec/.test(API_URL);
   }
 
   function friendlyError(err){
     const raw = String(err?.message || err || "");
-    if(raw.includes("LOGIN_INVALID")) return "User ID atau password salah.";
-    if(raw.includes("MEMBER_SESSION_INVALID")) return "Sesi login berakhir. Silakan login kembali.";
-    if(raw.includes("NO_CHANCES")) return "Kesempatan bermain sudah habis.";
-    if(raw.includes("MEMBER_INACTIVE")) return "Akun dinonaktifkan admin.";
-    if(raw.includes("Failed to fetch")) return "Tidak dapat terhubung ke server. Cek koneksi internet.";
-    return raw.replace(/^.*message["']?\s*:\s*/i,"") || "Terjadi kesalahan server.";
+    const map = [
+      ["LOGIN_INVALID","User ID atau password salah."],
+      ["MEMBER_SESSION_INVALID","Sesi login berakhir. Silakan login kembali."],
+      ["MEMBER_INACTIVE","Akun sedang dinonaktifkan admin."],
+      ["MEMBER_NOT_FOUND","Data member tidak ditemukan."],
+      ["NO_CHANCES","Kesempatan bermain sudah habis."],
+      ["SPREADSHEET_ID_NOT_CONFIGURED","Spreadsheet ID belum diisi pada Code.gs."],
+      ["Failed to fetch","Tidak dapat menghubungi server. Cek internet dan URL Apps Script."]
+    ];
+    for(const [key,msg] of map){
+      if(raw.includes(key)) return msg;
+    }
+    return raw || "Terjadi kesalahan server.";
   }
 
-  async function rpc(functionName, params={}){
-    if(!configReady()){
-      throw new Error("Supabase belum dikonfigurasi. Isi SUPABASE_URL dan SUPABASE_ANON_KEY pada script.");
-    }
+  async function api(action,payload={}){
+    if(!apiConfigured()) throw new Error("API_URL belum dikonfigurasi.");
 
-    const response = await fetch(
-      `${SUPABASE_URL.replace(/\/$/,"")}/rest/v1/rpc/${functionName}`,
-      {
-        method:"POST",
-        headers:{
-          "apikey":SUPABASE_ANON_KEY,
-          "Authorization":`Bearer ${SUPABASE_ANON_KEY}`,
-          "Content-Type":"application/json"
-        },
-        body:JSON.stringify(params)
-      }
-    );
+    const response = await fetch(API_URL,{
+      method:"POST",
+      redirect:"follow",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({action,...payload})
+    });
 
     const text = await response.text();
-    let data = null;
-    if(text){
-      try{ data = JSON.parse(text); }
-      catch(e){ data = text; }
-    }
+    let result;
+    try{ result = JSON.parse(text); }
+    catch(e){ throw new Error("Respons API tidak valid. Pastikan URL deployment berakhiran /exec."); }
 
-    if(!response.ok){
-      const msg =
-        (data && typeof data === "object" && (data.message || data.details || data.hint))
-        || text
-        || `HTTP ${response.status}`;
-      throw new Error(msg);
-    }
+    if(!result.ok) throw new Error(result.error || "API_ERROR");
+    return result.data;
+  }
 
-    return data;
+  function clearResultState(){
+    resultLayer.classList.remove("show");
+    resultLayer.style.display = "none";
+    if(revealSmoke) revealSmoke.innerHTML = "";
+  }
+
+  function showLogin(){
+    scene.style.display = "none";
+    gameHud.style.display = "none";
+    homeLayer.style.display = "none";
+    clearResultState();
+    authLayer.style.display = "flex";
+
+    if(!apiConfigured()){
+      loginError.textContent = "Isi API_URL Google Apps Script pada HTML.";
+    }
   }
 
   async function refreshMemberUI({silent=false}={}){
     if(!memberToken) return null;
-
     try{
-      currentMember = await rpc("mc_member_state",{p_token:memberToken});
-
-      homeMemberId.textContent = currentMember.user_id || "-";
+      currentMember = await api("memberState",{token:memberToken});
+      homeMemberId.textContent = currentMember.userId || "-";
       homeChances.textContent = Number(currentMember.chances || 0);
-      hudMemberId.textContent = currentMember.user_id || "-";
+      hudMemberId.textContent = currentMember.userId || "-";
       hudChances.textContent = Number(currentMember.chances || 0);
-
       startGameBtn.disabled = Number(currentMember.chances || 0) <= 0;
-      startGameBtn.textContent =
-        Number(currentMember.chances || 0) > 0
-          ? "MULAI BERMAIN"
-          : "KESEMPATAN HABIS";
-
+      startGameBtn.textContent = Number(currentMember.chances || 0) > 0 ? "MULAI BERMAIN" : "KESEMPATAN HABIS";
       return currentMember;
     }catch(err){
       if(!silent) console.error(err);
@@ -787,26 +782,12 @@ button{font:inherit}
     }
   }
 
-  function showLogin(){
-    scene.style.display = "none";
-    gameHud.style.display = "none";
-    homeLayer.style.display = "none";
-    clearResultState();
-    authLayer.style.display = "flex";
-
-    if(!configReady()){
-      loginError.textContent =
-        "Supabase belum dikonfigurasi. Isi Project URL dan Anon Key pada script.";
-    }
-  }
-
   async function showHome(){
     const member = await refreshMemberUI();
     if(!member){
       if(!memberToken) showLogin();
       return;
     }
-
     scene.style.display = "none";
     gameHud.style.display = "none";
     clearResultState();
@@ -837,10 +818,8 @@ button{font:inherit}
     currentMember = null;
     sessionStorage.removeItem(SESSION_KEY);
 
-    if(callServer && oldToken){
-      try{
-        await rpc("mc_member_logout",{p_token:oldToken});
-      }catch(e){}
+    if(callServer && oldToken && apiConfigured()){
+      try{ await api("memberLogout",{token:oldToken}); }catch(e){}
     }
 
     loginPassword.value = "";
@@ -848,25 +827,22 @@ button{font:inherit}
   }
 
   async function consumePlay(bottleName){
-    if(!memberToken) throw new Error("MEMBER_SESSION_INVALID");
-
-    const play = await rpc("mc_member_play",{
-      p_token:memberToken,
-      p_bottle:bottleName
-    });
+    const r = await api("play",{token:memberToken,bottle:bottleName});
 
     if(currentMember){
-      currentMember.chances = Number(play.remaining || 0);
+      currentMember.chances = Number(r.remaining || 0);
+      currentMember.totalPlay = Number(r.totalPlay || 0);
+      currentMember.lastPrize = r.prizeName || "";
     }
 
-    homeChances.textContent = Number(play.remaining || 0);
-    hudChances.textContent = Number(play.remaining || 0);
+    homeChances.textContent = Number(r.remaining || 0);
+    hudChances.textContent = Number(r.remaining || 0);
 
     return {
-      prizeName:play.prize_name || "-",
-      prizeValue:play.prize_value || "",
-      remaining:Number(play.remaining || 0),
-      forced:!!play.forced
+      prizeName:r.prizeName || "-",
+      prizeValue:r.prizeValue || "",
+      remaining:Number(r.remaining || 0),
+      forced:!!r.forced
     };
   }
 
@@ -875,36 +851,28 @@ button{font:inherit}
     if(text.includes("jackpot")) return "👑";
     if(text.includes("100") || text.includes("50")) return "💎";
     if(text.includes("bonus")) return "🎁";
-    if(text.includes("spin")) return "🎰";
     return "✨";
-  }
-
-  function clearResultState(){
-    resultLayer.classList.remove("show");
-    resultLayer.style.display = "none";
-    if(revealSmoke) revealSmoke.innerHTML = "";
   }
 
   function spawnRevealSmoke(){
     if(!revealSmoke) return;
     revealSmoke.innerHTML = "";
-    const count = 18;
-    for(let i=0;i<count;i++){
+    for(let i=0;i<18;i++){
       const puff = document.createElement("span");
       puff.className = "reveal-puff";
-      puff.style.setProperty("--size", `${60 + Math.random() * 82}px`);
-      puff.style.setProperty("--blur", `${10 + Math.random() * 10}px`);
-      puff.style.setProperty("--dur", `${1.15 + Math.random() * .55}s`);
-      puff.style.setProperty("--o", `${.42 + Math.random() * .28}`);
-      puff.style.setProperty("--o2", `${.26 + Math.random() * .18}`);
-      puff.style.setProperty("--o3", `${.12 + Math.random() * .12}`);
-      puff.style.setProperty("--drift1", `${-26 + Math.random() * 52}px`);
-      puff.style.setProperty("--drift2", `${-58 + Math.random() * 116}px`);
-      puff.style.setProperty("--drift3", `${-86 + Math.random() * 172}px`);
-      puff.style.setProperty("--drift4", `${-120 + Math.random() * 240}px`);
-      puff.style.setProperty("--rise", `${-118 - Math.random() * 54}px`);
-      puff.style.setProperty("--scale", `${1.34 + Math.random() * .82}`);
-      puff.style.animationDelay = `${Math.random() * .22}s`;
+      puff.style.setProperty("--size", `${60 + Math.random()*82}px`);
+      puff.style.setProperty("--blur", `${10 + Math.random()*10}px`);
+      puff.style.setProperty("--dur", `${1.15 + Math.random()*.55}s`);
+      puff.style.setProperty("--o", `${.42 + Math.random()*.28}`);
+      puff.style.setProperty("--o2", `${.26 + Math.random()*.18}`);
+      puff.style.setProperty("--o3", `${.12 + Math.random()*.12}`);
+      puff.style.setProperty("--drift1", `${-26 + Math.random()*52}px`);
+      puff.style.setProperty("--drift2", `${-58 + Math.random()*116}px`);
+      puff.style.setProperty("--drift3", `${-86 + Math.random()*172}px`);
+      puff.style.setProperty("--drift4", `${-120 + Math.random()*240}px`);
+      puff.style.setProperty("--rise", `${-118 - Math.random()*54}px`);
+      puff.style.setProperty("--scale", `${1.34 + Math.random()*.82}`);
+      puff.style.animationDelay = `${Math.random()*.22}s`;
       revealSmoke.appendChild(puff);
     }
   }
@@ -923,71 +891,57 @@ button{font:inherit}
     spawnRevealSmoke();
     resultLayer.style.display = "flex";
     void resultLayer.offsetWidth;
-    requestAnimationFrame(()=> resultLayer.classList.add("show"));
+    requestAnimationFrame(()=>resultLayer.classList.add("show"));
   }
 
-  memberLoginForm.addEventListener("submit",async(e)=>{
+  memberLoginForm.addEventListener("submit",async e=>{
     e.preventDefault();
     loginError.textContent = "";
 
-    if(!configReady()){
-      loginError.textContent =
-        "Supabase belum dikonfigurasi. Isi Project URL dan Anon Key pada script.";
+    if(!apiConfigured()){
+      loginError.textContent = "Isi API_URL Google Apps Script terlebih dahulu.";
       return;
     }
 
-    const submitBtn = memberLoginForm.querySelector('button[type="submit"]');
-    const oldText = submitBtn.textContent;
-    submitBtn.disabled = true;
-    submitBtn.textContent = "MENGHUBUNGKAN...";
+    const btn = memberLoginForm.querySelector('button[type="submit"]');
+    const old = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = "MENGHUBUNGKAN...";
 
     try{
-      const login = await rpc("mc_member_login",{
-        p_user_id:loginUserId.value.trim(),
-        p_password:loginPassword.value
+      const r = await api("memberLogin",{
+        userId:loginUserId.value.trim(),
+        password:loginPassword.value
       });
 
-      memberToken = login.token;
-      currentMember = login.member;
+      memberToken = r.token;
+      currentMember = r.member;
       sessionStorage.setItem(SESSION_KEY,memberToken);
       loginPassword.value = "";
       await showHome();
     }catch(err){
       loginError.textContent = friendlyError(err);
     }finally{
-      submitBtn.disabled = false;
-      submitBtn.textContent = oldText;
+      btn.disabled = false;
+      btn.textContent = old;
     }
   });
 
   startGameBtn.addEventListener("click",()=>showGame());
   homeLogoutBtn.addEventListener("click",()=>logoutMember());
   gameLogoutBtn.addEventListener("click",()=>logoutMember());
-  backMenuBtn.addEventListener("click",()=>{ if(!busy) showHome(); });
+  backMenuBtn.addEventListener("click",()=>{if(!busy) showHome();});
   resultMenuBtn.addEventListener("click",()=>showHome());
-  playAgainBtn.addEventListener("click",()=>{
-    clearResultState();
-    showGame();
-  });
+  playAgainBtn.addEventListener("click",()=>{clearResultState();showGame();});
 
-  /* Update kesempatan dari admin secara online.
-     Maksimal ±2 detik setelah admin menyimpan perubahan. */
-  memberPollTimer = window.setInterval(async()=>{
+  setInterval(async()=>{
     if(!memberToken || busy || document.hidden) return;
-
-    const oldChance = currentMember ? Number(currentMember.chances || 0) : null;
-    const member = await refreshMemberUI({silent:true});
-    if(!member) return;
-
-    const newChance = Number(member.chances || 0);
-    if(oldChance !== null && oldChance !== newChance){
-      console.log("Kesempatan diperbarui dari server:",oldChance,"->",newChance);
-    }
-
-    if(newChance <= 0 && scene.style.display !== "none" && resultLayer.style.display !== "flex"){
+    const m = await refreshMemberUI({silent:true});
+    if(!m) return;
+    if(Number(m.chances || 0) <= 0 && scene.style.display !== "none" && resultLayer.style.display !== "flex"){
       await showHome();
     }
-  },2000);
+  },3000);
 
 
 
@@ -1169,6 +1123,7 @@ button{font:inherit}
       if(String(err.message).includes("MEMBER_SESSION_INVALID")){
         await logoutMember(false);
       }else if(String(err.message).includes("NO_CHANCES")){
+        alert(msg);
         await showHome();
       }else{
         alert(msg);
@@ -1186,13 +1141,13 @@ button{font:inherit}
       followPour(button);
       restartAnimation(flash,"show");
       burst();
-    }, 1340);
+    },1340);
 
     setTimeout(()=>{
       pourSvg.classList.remove("show");
       cancelAnimationFrame(streamRAF);
       streamRAF = 0;
-    }, 1980);
+    },1980);
 
     setTimeout(()=>{
       button.classList.remove("active");
@@ -1200,7 +1155,7 @@ button{font:inherit}
       bottles.forEach(b=>b.disabled=false);
       busy = false;
       showResult(play);
-    }, 2860);
+    },2860);
   }
 
   bottles.forEach(button=>{
@@ -1256,12 +1211,8 @@ button{font:inherit}
   window.addEventListener("orientationchange", updateStageScale);
   updateStageScale();
 
-  /* Initial screen - online session */
-  if(memberToken){
-    showHome();
-  }else{
-    showLogin();
-  }
+  /* Initial screen - Google Sheets online */
+  if(memberToken){ showHome(); } else { showLogin(); }
 
 /* Block browser zoom */
   window.addEventListener("wheel", (e)=>{ if(e.ctrlKey) e.preventDefault(); }, {passive:false});
